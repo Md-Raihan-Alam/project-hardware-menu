@@ -1,0 +1,14 @@
+Product-Id:221066
+Customer-Name:Raihan
+Customer-Phone-Number:01321814174
+Item-Name:Nitro-5
+Item-Brand-Name:Acer
+Price:100000
+------
+Product-Id:221050
+Customer-Name:Raihan
+Customer-Phone-Number:01321814174
+Item-Name:Ram-DDR4-8GB
+Item-Brand-Name:Disco
+Price:3500
+------
