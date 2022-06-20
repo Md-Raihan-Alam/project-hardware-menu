@@ -12,3 +12,17 @@ Item-Name:Ram-DDR4-8GB
 Item-Brand-Name:Disco
 Price:3500
 ------
+Product-Id:220176
+Customer-Name:Rina
+Customer-Phone-Number:01749005509
+Item-Name:PC
+Item-Brand-Name:Asus
+Price:150000
+------
+Product-Id:454523
+Customer-Name:Raihan
+Customer-Phone-Number:01321814174
+Item-Name:PC
+Item-Brand-Name:Dell
+Price:60000
+------
