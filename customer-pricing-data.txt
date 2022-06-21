@@ -1,28 +1,21 @@
-Product-Id:221066
-Customer-Name:Raihan
+Product-Id:741258
+Customer-Name:Md. Raihan Alam
 Customer-Phone-Number:01321814174
-Item-Name:Nitro-5
+Item-Name:Nitro 5
 Item-Brand-Name:Acer
 Price:100000
 ------
-Product-Id:221050
-Customer-Name:Raihan
-Customer-Phone-Number:01321814174
-Item-Name:Ram-DDR4-8GB
-Item-Brand-Name:Disco
-Price:3500
-------
-Product-Id:220176
-Customer-Name:Rina
-Customer-Phone-Number:01749005509
+Product-Id:417485
+Customer-Name:Khorshed Alam
+Customer-Phone-Number:01711387838
 Item-Name:PC
-Item-Brand-Name:Asus
-Price:150000
-------
-Product-Id:454523
-Customer-Name:Raihan
-Customer-Phone-Number:01321814174
-Item-Name:PC
-Item-Brand-Name:Dell
+Item-Brand-Name:HP
 Price:60000
+------
+Product-Id:123654
+Customer-Name:Rina Alam
+Customer-Phone-Number:01215487
+Item-Name:Tab
+Item-Brand-Name:Acer
+Price:20000
 ------

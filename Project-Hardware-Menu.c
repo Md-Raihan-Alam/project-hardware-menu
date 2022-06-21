@@ -19,6 +19,14 @@ struct CUSTOMER{
     long long int price;
     long long int productId;
 };
+struct CUSTOMERINFO{
+    char customerName[100];
+    char customerPhoneNumber[100];
+    char itemName[100];
+    char itemBrandName[100];
+    long long int price;
+    long long int productId;
+};
 int employeeMenu();
 void customerData();
 void customerInfo();
@@ -55,7 +63,7 @@ int employeeMenu(){
 }
 void customerData(){
     FILE *fp;
-    struct CUSTOMER cus;
+    struct CUSTOMERINFO cus;
     printf("\n---Customer Informations---\n");
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error reading data\n");
@@ -63,7 +71,7 @@ void customerData(){
     }
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
             printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price);
         }else{
             printf("Error in reading customer-pricing-data.txt file");
@@ -76,25 +84,25 @@ void customerInfo(){
     FILE *fp;
     struct CUSTOMER cus;
     printf("\n---Customer and Item Data---\n");
+    fgetc(stdin);
+    printf("Enter customer Name:");
+    fgets(cus.customerName, 100, stdin);
+    printf("Enter customer Phone number:");
+    fgets(cus.customerPhoneNumber, 100, stdin);
+    printf("Enter Item Name:");
+    fgets(cus.itemName, 100, stdin);
+    printf("Enter Item Brand Name:");
+    fgets(cus.itemBrandName, 100, stdin);
     printf("Enter Item Id no:");
     scanf("%lld",&cus.productId);
-    printf("Enter customer Name:");
-    scanf("%s",&cus.customerName);
-    printf("Enter customer Phone number:");
-    scanf("%s",&cus.customerPhoneNumber);
-    printf("Enter Item Name:");
-    scanf("%s",&cus.itemName);
-    printf("Enter Item Brand Name:");
-    scanf("%s",&cus.itemBrandName);
     printf("Enter price in bd:");
     scanf("%lld",&cus.price);
-    // printf("Name:%s,productId:%lld,PhoneNumber:%s,ItemName:%s,ItemBrandName:%s,Price:%lld\n",customerName,productId,customerPhoneNumber,itemName,itemBrandName,price);
     if((fp=fopen("customer-pricing-data.txt","a"))==NULL){
         printf("It seems file needs to be created first\n");
         exit(1);
     }
     if(!ferror(fp)) 
-        fprintf(fp,"Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price);
+        fprintf(fp,"Product-Id:%lld\nCustomer-Name:%sCustomer-Phone-Number:%sItem-Name:%sItem-Brand-Name:%sPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price);
     else {
         printf("Error writing data\n");
         exit(1);
@@ -148,7 +156,7 @@ void employeeData(){
             printf("Error in file\n");
             exit(1);
         }else{
-            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
             // printf("%lld\t\t%s\t\t%s\t\t%d\t\t%s\t%20lld\t%lf\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
             printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
         }
@@ -160,12 +168,15 @@ void hireEmployee(){
     struct EMPLOYEE emp;
     printf("Enter Employee Id:");
     scanf("%lld",&emp.empId);
+    fgetc(stdin);
     printf("Enter Employee Name:");
-    scanf("%s",&emp.empName);
+    // scanf("%s",&emp.empName);
+    fgets(emp.empName,100,stdin);
     printf("Enter Employee Position:");
-    scanf("%s",&emp.empPos);
+    fgets(emp.empPos,100,stdin);
     printf("Enter Employee Phone number:");
-    scanf("%s",&emp.empPhoneNumber);
+    // scanf("%s",&emp.empPhoneNumber);
+    fgets(emp.empPhoneNumber,100,stdin);
     printf("Enter Employee Age:");
     scanf("%d",&emp.empAge);
     printf("Enter Employee Salary in bd:");
@@ -177,7 +188,7 @@ void hireEmployee(){
         exit(1);
     }
     if(!ferror(fp))
-        fprintf(fp,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+        fprintf(fp,"Employee-Id:%lld\nEmployee-Name:%sEmployee-Phone-Number:%sEmployee-Age:%d\nEmployee-Position:%sEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
     else
         printf("Error in file\n");
     fclose(fp);
