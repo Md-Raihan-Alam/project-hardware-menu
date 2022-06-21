@@ -19,3 +19,31 @@ Item-Name:Tab
 Item-Brand-Name:Acer
 Price:20000
 ------
+Product-Id:414152
+Customer-Name:Rocky Byte
+Customer-Phone-Number:1236547789
+Item-Name:Tab
+Item-Brand-Name:HP
+Price:100000
+------
+Product-Id:744174
+Customer-Name:Md Raihan Alam
+Customer-Phone-Number:01321814174
+Item-Name:Mac
+Item-Brand-Name:Apple
+Price:50000
+------
+Product-Id:4141
+Customer-Name:Rocky Byte
+Customer-Phone-Number:1252421452
+Item-Name:Mac Tab
+Item-Brand-Name:Apple
+Price:50000
+------
+Product-Id:70122210
+Customer-Name:Khorshed Alam
+Customer-Phone-Number:01711387838
+Item-Name:Mac HeadPhone
+Item-Brand-Name:Apple 
+Price:12000
+------
