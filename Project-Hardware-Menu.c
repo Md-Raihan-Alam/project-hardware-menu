@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
+#include<conio.h>
 #define managerPassword "manager@112233"
 struct EMPLOYEE{
     long long int empId;
@@ -41,6 +43,13 @@ void searchPhoneNumber();
 void searchItemName();
 void searchBrandName();
 void searchPrices();
+void empInformationSearch();
+void searchEmpId();
+void searchEmpName();
+void searchEmpPos();
+void searchEmpPerRate();
+void searchEmpSalary();
+void searchEmpPhone();
 int main(void)
 {
     int choices;
@@ -148,8 +157,9 @@ void managerLogin(){
             if(managerChoices==1) employeeData();
             else if(managerChoices==3) hireEmployee();
             else if(managerChoices==4) customerData();
-            else if(managerChoices==5)  customerInfo();
-            else if(managerChoices==6) {
+            else if(managerChoices==5) customerInfo();
+            else if(managerChoices==6) empInformationSearch();
+            else if(managerChoices==7) {
                 printf("\n---Logging out---\n");
                 break;
             }
@@ -166,7 +176,8 @@ int managerMenu(){
     printf("3.Hire Employee\n");
     printf("4.Customer Informations\n");
     printf("5.Enter selling product and customer data\n");
-    printf("6.Log out\n:");
+    printf("6.Search Employee Informations\n");
+    printf("7.Log out\n:");
     int manager_choices;
     scanf("%d",&manager_choices);
     return manager_choices;
@@ -258,6 +269,7 @@ void searchCustomerName(){
     fgetc(stdin);
     printf("\n\nEnter the customer name you want to search:");
     fgets(searchCusName,100,stdin);
+    searchCusName[strcspn(searchCusName, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
         exit(1);
@@ -268,7 +280,7 @@ void searchCustomerName(){
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
-            if(strncmp(cus.customerName,searchCusName,strlen(searchCusName)-1)==0){
+            if(strcmp(cus.customerName,searchCusName)==0){
                 found=1;
                 printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
             }
@@ -288,6 +300,7 @@ void searchPhoneNumber(){
     fgetc(stdin);
     printf("\n\nEnter the customer phone number you want to search:");
     fgets(searchPhoNum,100,stdin);
+    searchPhoNum[strcspn(searchPhoNum, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
         exit(1);
@@ -296,7 +309,7 @@ void searchPhoneNumber(){
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
-            if(strncmp(cus.customerName,searchPhoNum,strlen(searchPhoNum)-1)==0){
+            if(strcmp(cus.customerPhoneNumber,searchPhoNum)==0){
                 found=1;
                 printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
             }
@@ -316,6 +329,7 @@ void searchItemName(){
     fgetc(stdin);
     printf("\n\nEnter the Item name you want to search:");
     fgets(searchItName,100,stdin);
+    searchItName[strcspn(searchItName, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
         exit(1);
@@ -324,7 +338,8 @@ void searchItemName(){
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
-            if(strncmp(cus.customerName,searchItName,strlen(searchItName)-1)==0){
+            // printf("%s %d %s\n",searchItName,strcmp(searchItName,cus.itemName),cus.itemName);
+            if(strcmp(cus.itemName,searchItName)==0){
                 found=1;
                 printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
             }
@@ -333,7 +348,7 @@ void searchItemName(){
             exit(1);
         }
     }
-    if(found==1) printf("\nNo Data found\n");
+    if(found==0) printf("\nNo Data found\n");
     fclose(fp);
 }
 void searchBrandName(){
@@ -344,6 +359,7 @@ void searchBrandName(){
     fgetc(stdin);
     printf("\n\nEnter the Item Brand name you want to search:");
     fgets(searchBrand,100,stdin);
+    searchBrand[strcspn(searchBrand, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
         exit(1);
@@ -352,7 +368,7 @@ void searchBrandName(){
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
-            if(strncmp(cus.customerName,searchBrand,strlen(searchBrand)-1)==0){
+            if(strcmp(cus.itemBrandName,searchBrand)==0){
                 found=1;
                 printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
             }
@@ -365,5 +381,300 @@ void searchBrandName(){
     fclose(fp);
 }
 void searchPrices(){
+    char ch;
     printf("\n\nDo you wish to select a range?\n(Select Y for range/Select N for specific number)\n:");
+    ch=getche();
+    if(toupper(ch)=='Y'){
+        long long int lowestRange;
+        long long int highestRange;
+        int found=0;
+        FILE *fp;
+        struct CUSTOMER cus;
+        printf("\nEnter the minimum price you want to set:");
+        scanf("%lld",&lowestRange);
+        printf("Enter the maximum price you want to set:");
+        scanf("%lld",&highestRange);
+        if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+            printf("Error in searching the file with price");
+            exit(1);
+        }
+        printf("\n---Search Results---:\n");
+        while(!feof(fp)){
+            if(!ferror(fp)){
+                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+                if((cus.price>=lowestRange) && (cus.price<=highestRange)){
+                    found=1;
+                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                }
+            }else{
+                printf("Error in file while searching by price");
+                exit(1);
+            }
+        }
+        if(found==0) printf("\nNo Data found\n");
+        fclose(fp);
+    }else if(toupper(ch)=='N'){
+        long long int searchPrice;
+        int found=0;
+        FILE *fp;
+        struct CUSTOMER cus;
+        printf("\n\nEnter the specific price you want to search:");
+        scanf("%lld",&searchPrice);
+        if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+            printf("Error in searching the file with price");
+            exit(1);
+        }
+        printf("\n---Search Results---:\n");
+        while(!feof(fp)){
+            if(!ferror(fp)){
+                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+                if(cus.price==searchPrice){
+                    found=1;
+                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                }
+            }else{
+                printf("Error in file while searching by price");
+                exit(1);
+            }
+        }
+        if(found==0) printf("\nNo Data found\n");
+        fclose(fp);
+    }
+}
+void empInformationSearch(){
+   printf("\n---WELCOME TO EMPLOYEE INFORMATION SEARCHING OPTION---\n");
+   int empOption;
+   printf("\n1.Search by employee ID\n");
+   printf("2.Search by employee name\n");
+   printf("3.Search by employee position\n");
+   printf("4.Search by employee performation rate\n");
+   printf("5.Search by employee salary\n");
+   scanf("%d",&empOption);
+   if(empOption==1) searchEmpId();
+   else if(empOption==2) searchEmpName();
+   else if(empOption==3) searchEmpPos();
+   else if(empOption==4) searchEmpPerRate();
+   else if(empOption==5) searchEmpSalary();
+   else printf("Please enter valid number\n");
+}
+void searchEmpId(){
+    FILE *fp;
+    long long int empPerId;
+    struct EMPLOYEE emp;
+    int found=0;
+    printf("\nEnter employee Id you want to search:");
+    scanf("%lld",&empPerId);
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error opening employee file in search mode\n");
+        exit(1);
+    }
+    printf("\n---Search Results---:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(empPerId==emp.empId){
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching employee id\n");
+            exit(1);
+        }
+    }
+    fclose(fp);
+}
+void searchEmpName(){
+    int found=0;
+    char searchEmpNam[100];
+    FILE *fp;
+    struct EMPLOYEE emp;
+    fgetc(stdin);
+    printf("\n\nEnter the employee name you want to search:");
+    fgets(searchEmpNam,100,stdin);
+    searchEmpNam[strcspn(searchEmpNam, "\n")] = 0;
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error in searching the file with employee name");
+        exit(1);
+    }
+    printf("\n---Search Results---:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(strcmp(searchEmpNam,emp.empName)==0){
+                found=1;
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching employee name\n");
+            exit(1);
+        }
+    }
+    if(found==0) printf("\nNo Data found\n");
+    fclose(fp);
+}
+void searchEmpPos(){
+    int found=0;
+    char searchEmpPos[100];
+    FILE *fp;
+    struct EMPLOYEE emp;
+    fgetc(stdin);
+    printf("\n\nEnter the employee position you want to search:");
+    fgets(searchEmpPos,100,stdin);
+    searchEmpPos[strcspn(searchEmpPos, "\n")] = 0;
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error in searching the file with employee name");
+        exit(1);
+    }
+    printf("\n---Search Results---:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(strcmp(searchEmpPos,emp.empPos)==0){
+                found=1;
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching employee position\n");
+            exit(1);
+        }
+    }
+    if(found==0) printf("\nNo Data found\n");
+    fclose(fp);
+}
+void searchEmpPerRate(){
+    FILE *fp;
+    double searchEmpPerformanceR;
+    struct EMPLOYEE emp;
+    int pasFound=0;
+    int failFound=0;
+    printf("\nEnter the passing rate for the employees:");
+    scanf("%lf",&searchEmpPerformanceR);
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error opening employee file in search mode\n");
+        exit(1);
+    }
+    printf("\n---Search Results---:\n");
+    printf("\nThose who are equal or above the rate you have set:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(searchEmpPerformanceR<=emp.empPerformanceRate){
+                pasFound=1;
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching employee id\n");
+            exit(1);
+        }
+    }
+    if(pasFound==0) printf("\nNo one passed\n");
+    fclose(fp);
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error opening employee file in search mode\n");
+        exit(1);
+    }
+    printf("\nThose who are below the rate you have set:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(searchEmpPerformanceR>emp.empPerformanceRate){
+                failFound=1;
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching employee id\n");
+            exit(1);
+        }
+    }
+    if(failFound==0) printf("\nNo one failed\n");
+    fclose(fp);
+}
+void searchEmpSalary(){
+    char ch;
+    printf("\n\nDo you wish to select a range?\n(Select Y for range/Select N for specific number)\n:");
+    ch=getche();
+    if(toupper(ch)=='Y'){
+        long long int lowestRange;
+        long long int highestRange;
+        int found=0;
+        FILE *fp;
+        struct EMPLOYEE emp;
+        printf("\nEnter the minimum salary you want to set:");
+        scanf("%lld",&lowestRange);
+        printf("Enter the maximum salary you want to set:");
+        scanf("%lld",&highestRange);
+        if((fp=fopen("Employee-Info.txt","r"))==NULL){
+            printf("Error in searching the file with salary");
+            exit(1);
+        }
+        printf("\n---Search Results---:\n");
+        while(!feof(fp)){
+            if(!ferror(fp)){
+                fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+                if((emp.empSalary>=lowestRange) && (emp.empSalary<=highestRange)){
+                    found=1;
+                    printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+                }
+            }else{
+                printf("Error in file while searching by price");
+                exit(1);
+            }
+        }
+        if(found==0) printf("\nNo Data found\n");
+        fclose(fp);
+    }else if(toupper(ch)=='N'){
+        long long int searchSalary;
+        int found=0;
+        FILE *fp;
+        struct EMPLOYEE emp;
+        printf("\n\nEnter the specific salary you want to search:");
+        scanf("%lld",&searchSalary);
+        if((fp=fopen("Employee-Info.txt","r"))==NULL){
+            printf("Error in searching the file with salary");
+            exit(1);
+        }
+        printf("\n---Search Results---:\n");
+        while(!feof(fp)){
+            if(!ferror(fp)){
+                fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+                if(emp.empSalary==searchSalary){
+                    found=1;
+                    printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+                }
+            }else{
+                printf("Error in file while searching by price");
+                exit(1);
+            }
+        }
+        if(found==0) printf("\nNo Data found\n");
+        fclose(fp);
+    }
+}
+void searchEmpPhone(){
+    int found=0;
+    char searchEmpPhoneNumber[100];
+    FILE *fp;
+    struct EMPLOYEE emp;
+    fgetc(stdin);
+    printf("\n\nEnter the employee phone number you want to search:");
+    fgets(searchEmpPhoneNumber,100,stdin);
+    searchEmpPhoneNumber[strcspn(searchEmpPhoneNumber, "\n")] = 0;
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error in searching the file with employee text number\n");
+        exit(1);
+    }
+    printf("\n---Search Results---:\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(strcmp(emp.empPhoneNumber,searchEmpPhoneNumber)==0){
+                found=1;
+                printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            }
+        }else{
+            printf("Error in file while searching by item id");
+            exit(1);
+        }
+    }
+    if(found==0) printf("\nNo Data found\n");
+    fclose(fp);
 }

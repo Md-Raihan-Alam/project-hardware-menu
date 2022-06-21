@@ -22,3 +22,19 @@ Employee-Position:Service Man
 Employee-Salary:500000
 Employee-Performance-Rate:99.990000
 ------
+Employee-Id:414156
+Employee-Name:Rocky
+Employee-Phone-Number:01212154
+Employee-Age:23
+Employee-Position:Delivery Man
+Employee-Salary:60000
+Employee-Performance-Rate:85.320000
+------
+Employee-Id:897425
+Employee-Name:Happy Khan
+Employee-Phone-Number:8525852547
+Employee-Age:32
+Employee-Position:Service Man
+Employee-Salary:55000
+Employee-Performance-Rate:87.650000
+------
