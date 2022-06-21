@@ -50,6 +50,7 @@ void searchEmpPos();
 void searchEmpPerRate();
 void searchEmpSalary();
 void searchEmpPhone();
+void fireEmployee();
 int main(void)
 {
     int choices;
@@ -129,6 +130,7 @@ void customerInfo(){
     printf("\n");
 }
 void customersInformationSearch(){
+    while(1){
     printf("\n---WELCOME TO CUSTOMER INFORMATION SEARCHING OPTIONS---\n");
     int searchChoices;
     printf("\n1.Search by Item Id.\n");
@@ -136,7 +138,8 @@ void customersInformationSearch(){
     printf("3.Search by Customer Phone Number\n");
     printf("4.Search by Item Name\n");
     printf("5.Search by Item Brand Name\n");
-    printf("6.Search by Price\n:");
+    printf("6.Search by Price\n");
+    printf("7.Quit Customer INformation Searching Menu\n:");
     scanf("%d",&searchChoices);
     if(searchChoices==1) searchItemId();
     else if(searchChoices==2) searchCustomerName();
@@ -144,7 +147,9 @@ void customersInformationSearch(){
     else if(searchChoices==4) searchItemName();
     else if(searchChoices==5) searchBrandName();
     else if(searchChoices==6) searchPrices();
+    else if(searchChoices==7) break;
     else printf("\nEnter proper number next time\n");
+    }
 }
 void managerLogin(){
     printf("\n---Manager Login---\n");
@@ -155,11 +160,13 @@ void managerLogin(){
         while(1){
             int managerChoices=managerMenu();
             if(managerChoices==1) employeeData();
+            else if(managerChoices==2) fireEmployee();
             else if(managerChoices==3) hireEmployee();
             else if(managerChoices==4) customerData();
             else if(managerChoices==5) customerInfo();
             else if(managerChoices==6) empInformationSearch();
-            else if(managerChoices==7) {
+            else if(managerChoices==7) customersInformationSearch();
+            else if(managerChoices==8) {
                 printf("\n---Logging out---\n");
                 break;
             }
@@ -177,7 +184,8 @@ int managerMenu(){
     printf("4.Customer Informations\n");
     printf("5.Enter selling product and customer data\n");
     printf("6.Search Employee Informations\n");
-    printf("7.Log out\n:");
+    printf("7.Search Customers Information\n");
+    printf("8.Log out\n:");
     int manager_choices;
     scanf("%d",&manager_choices);
     return manager_choices;
@@ -233,6 +241,68 @@ void hireEmployee(){
     else
         printf("Error in file\n");
     fclose(fp);
+}
+void fireEmployee(){
+    FILE *fp1,*fp2;
+    long long int fireEmployeeId;
+    struct EMPLOYEE emp;
+    printf("Enter the employee id you want to fire:");
+    scanf("%lld",&fireEmployeeId);
+    if((fp1=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error reading employee file in fire employee function\n");
+        exit(1);
+    }
+    if((fp2=fopen("temp.txt","a"))==NULL){
+        printf("Error creating temp file");
+        exit(1);
+    }
+    while(!feof(fp1)){
+        if(!ferror(fp1)){
+            fscanf(fp1,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(fireEmployeeId!=emp.empId){
+                if(!ferror(fp2))
+                    fprintf(fp2,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+                else{
+                    printf("Error writing file temp fireEmployee");
+                    remove("temp.txt");
+                    exit(1);
+                }
+            }
+        }else{
+            printf("Error file Employee-Info.txt fireEmployee");
+            remove("temp.txt");
+            exit(1);
+        }
+    }
+    fclose(fp2);
+    fclose(fp1);
+    remove("Employee-Info.txt");
+    if((fp1=fopen("Employee-Info.txt","a"))==NULL){
+        printf("Error recreating file 1 fireEmployee\n");
+        exit(1);
+    }
+    if((fp2=fopen("temp.txt","r"))==NULL){
+        printf("Error reading temp file fireEmployee");
+        exit(1);
+    }
+    while(!feof(fp2)){
+        if(!ferror(fp2)){
+            fscanf(fp2,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+            if(!ferror(fp1))
+                fprintf(fp1,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+            else{
+                printf("Error writng file 1 hireEmployee\n");
+                exit(1);
+            }
+        }else{
+            printf("Error in file 2 fireEmployee");
+            remove("temp.txt");
+            exit(1);
+        }
+    }
+    fclose(fp2);
+    fclose(fp1);
+    remove("temp.txt");
 }
 void searchItemId(){
     long long int searchProductId;
@@ -442,20 +512,26 @@ void searchPrices(){
     }
 }
 void empInformationSearch(){
-   printf("\n---WELCOME TO EMPLOYEE INFORMATION SEARCHING OPTION---\n");
+   while(1){
+    printf("\n---WELCOME TO EMPLOYEE INFORMATION SEARCHING OPTION---\n");
    int empOption;
    printf("\n1.Search by employee ID\n");
    printf("2.Search by employee name\n");
    printf("3.Search by employee position\n");
    printf("4.Search by employee performation rate\n");
    printf("5.Search by employee salary\n");
+   printf("6.Search by employee phone number\n");
+   printf("7.Quit Employee Information Searching Menu\n:");
    scanf("%d",&empOption);
    if(empOption==1) searchEmpId();
    else if(empOption==2) searchEmpName();
    else if(empOption==3) searchEmpPos();
    else if(empOption==4) searchEmpPerRate();
    else if(empOption==5) searchEmpSalary();
+   else if(empOption==6) searchEmpPhone();
+   else if(empOption==7) break;
    else printf("Please enter valid number\n");
+   }
 }
 void searchEmpId(){
     FILE *fp;

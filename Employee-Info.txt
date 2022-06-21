@@ -1,40 +1,16 @@
-Employee-Id:1452325
-Employee-Name:Md Masud Khan
-Employee-Phone-Number:01215242
-Employee-Age:32
-Employee-Position:Delivery Man
-Employee-Salary:50000
-Employee-Performance-Rate:77.870000
-------
-Employee-Id:142541
-Employee-Name:Md. Raihan Alam
+Employee-Id:741258
+Employee-Name:Raihan Alam
 Employee-Phone-Number:01321814174
 Employee-Age:21
-Employee-Position:Assistant Manager
+Employee-Position:Asistant
 Employee-Salary:100000
-Employee-Performance-Rate:98.980000
+Employee-Performance-Rate:98.360000
 ------
-Employee-Id:747485
-Employee-Name:Arnob Borua
-Employee-Phone-Number:0121415168
-Employee-Age:23
-Employee-Position:Service Man
-Employee-Salary:500000
-Employee-Performance-Rate:99.990000
-------
-Employee-Id:414156
-Employee-Name:Rocky
-Employee-Phone-Number:01212154
-Employee-Age:23
+Employee-Id:858369
+Employee-Name:Rakib Khan
+Employee-Phone-Number:0213254163
+Employee-Age:24
 Employee-Position:Delivery Man
 Employee-Salary:60000
-Employee-Performance-Rate:85.320000
-------
-Employee-Id:897425
-Employee-Name:Happy Khan
-Employee-Phone-Number:8525852547
-Employee-Age:32
-Employee-Position:Service Man
-Employee-Salary:55000
-Employee-Performance-Rate:87.650000
+Employee-Performance-Rate:89.360000
 ------
