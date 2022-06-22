@@ -6,3 +6,27 @@ Employee-Position:Asistant
 Employee-Salary:100000
 Employee-Performance-Rate:98.360000
 ------
+Employee-Id:781248
+Employee-Name:Arnob Borua
+Employee-Phone-Number:0114174
+Employee-Age:24
+Employee-Position:Delivery Man
+Employee-Salary:80000
+Employee-Performance-Rate:90.360000
+------
+Employee-Id:181248
+Employee-Name:Rocky Khan
+Employee-Phone-Number:01777714174
+Employee-Age:20
+Employee-Position:Service Man
+Employee-Salary:90000
+Employee-Performance-Rate:80.360000
+------
+Employee-Id:1878948
+Employee-Name:Pam Khan
+Employee-Phone-Number:7897714174
+Employee-Age:22
+Employee-Position:Service Man
+Employee-Salary:60000
+Employee-Performance-Rate:85.360000
+------

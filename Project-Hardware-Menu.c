@@ -30,6 +30,15 @@ struct TEMP{
     long long int price;
     long long int productId; 
 };
+struct TEMP2{
+    long long int empId;
+    char empName[100];
+    char empPos[100];
+    char empPhoneNumber[100];
+    long long int empSalary;
+    int empAge;
+    double empPerformanceRate;
+};
 struct CUSTOMERINFO{
     char customerName[100];
     char customerPhoneNumber[100];
@@ -65,6 +74,9 @@ void pricesSort(int order);
 void customerSort();
 void brandSort();
 void productSort();
+void employeeSortingMenu();
+void sortSalary(int order);
+void sortPerformanceRate();
 int main(void)
 {
     int choices;
@@ -182,7 +194,8 @@ void managerLogin(){
             else if(managerChoices==5) customerInfo();
             else if(managerChoices==6) empInformationSearch();
             else if(managerChoices==7) customersInformationSearch();
-            else if(managerChoices==8) {
+            else if(managerChoices==8) employeeSortingMenu();
+            else if(managerChoices==9) {
                 printf("\n---Logging out---\n");
                 break;
             }
@@ -201,7 +214,8 @@ int managerMenu(){
     printf("5.Enter selling product and customer data\n");
     printf("6.Search Employee Informations\n");
     printf("7.Search Customers Information\n");
-    printf("8.Log out\n:");
+    printf("8.Additional Information About Employee\n");
+    printf("9.Log out\n:");
     int manager_choices;
     scanf("%d",&manager_choices);
     return manager_choices;
@@ -787,7 +801,6 @@ void sortingCustomerMenu(){
     else printf("\nEnter a valid option number\n");
 }
 void pricesSort(int order){
-    printf("\n--Entered--\n");
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
     struct TEMP temp;
     FILE *fp;
@@ -1073,5 +1086,149 @@ void productSort(){
         if(productOrders[j]>=maximumOrders){
             printf("%s\n",productNames[j]);
         }
+    }
+}
+void employeeSortingMenu(){
+    printf("\n---Welcome to addtional Infomation Menu Option---\n");
+    int sortingEmpOption;
+    printf("1.Sort By Salary from heighest to lowest\n");
+    printf("2.Sort by Salary from lowest to heighest\n");
+    printf("3.Sort by Performance Rate(highest to lowest)\n:");
+    scanf("%d",&sortingEmpOption);
+    if(sortingEmpOption==1) sortSalary(1);
+    else if(sortingEmpOption==2) sortSalary(2);
+    else if(sortingEmpOption==3) sortPerformanceRate();
+    else printf("\nEnter valid number\n");
+}
+void sortSalary(int order){
+    FILE *fp;
+    struct EMPLOYEE emp[MAX_ARRAY_SIZE];
+    struct TEMP2 tmp;
+    int i=0,j,k;
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error:sort salary\n");
+        exit(1);
+    }
+    while(!feof(fp)){
+        if(!ferror(fp)){
+             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp[i].empId,&emp[i].empName,&emp[i].empPhoneNumber,&emp[i].empAge,&emp[i].empPos,&emp[i].empSalary,&emp[i].empPerformanceRate);
+             i++;
+        }else{
+            printf("Error:retreiving data sort salary\n");
+            exit(1);
+        }
+    }
+    printf("\n---Wait, Data is being sorted---\n");
+    if(order==1){
+        for(j=0;j<i;j++){
+            for(k=0;k<i-1;k++){
+                if(emp[k].empSalary<emp[k+1].empSalary){
+                    tmp.empSalary=emp[k].empSalary;
+                    strcpy(tmp.empName,emp[k].empName);
+                    strcpy(tmp.empPhoneNumber,emp[k].empPhoneNumber);
+                    strcpy(tmp.empPos,emp[k].empPos);
+                    tmp.empId=emp[k].empId;
+                    tmp.empAge=emp[k].empAge;
+                    tmp.empPerformanceRate=emp[k].empPerformanceRate;
+                    emp[k].empSalary=emp[k+1].empSalary;
+                    strcpy(emp[k].empName,emp[k+1].empName);
+                    strcpy(emp[k].empPhoneNumber,emp[k+1].empPhoneNumber);
+                    strcpy(emp[k].empPos,emp[k+1].empPos);
+                    emp[k].empId=emp[k+1].empId;
+                    emp[k].empAge=emp[k+1].empAge;
+                    emp[k].empPerformanceRate=emp[k+1].empPerformanceRate;
+                    emp[k+1].empSalary=tmp.empSalary;
+                    strcpy(emp[k+1].empName,tmp.empName);
+                    strcpy(emp[k+1].empPhoneNumber,tmp.empPhoneNumber);
+                    strcpy(emp[k+1].empPos,tmp.empPos);
+                    emp[k+1].empId=tmp.empId;
+                    emp[k+1].empAge=tmp.empAge;
+                    emp[k+1].empPerformanceRate=tmp.empPerformanceRate;
+                }
+            }
+        }
+    }else{
+        for(j=0;j<i;j++){
+            for(k=0;k<i-1;k++){
+                if(emp[k].empSalary>emp[k+1].empSalary){
+                    tmp.empSalary=emp[k].empSalary;
+                    strcpy(tmp.empName,emp[k].empName);
+                    strcpy(tmp.empPhoneNumber,emp[k].empPhoneNumber);
+                    strcpy(tmp.empPos,emp[k].empPos);
+                    tmp.empId=emp[k].empId;
+                    tmp.empAge=emp[k].empAge;
+                    tmp.empPerformanceRate=emp[k].empPerformanceRate;
+                    emp[k].empSalary=emp[k+1].empSalary;
+                    strcpy(emp[k].empName,emp[k+1].empName);
+                    strcpy(emp[k].empPhoneNumber,emp[k+1].empPhoneNumber);
+                    strcpy(emp[k].empPos,emp[k+1].empPos);
+                    emp[k].empId=emp[k+1].empId;
+                    emp[k].empAge=emp[k+1].empAge;
+                    emp[k].empPerformanceRate=emp[k+1].empPerformanceRate;
+                    emp[k+1].empSalary=tmp.empSalary;
+                    strcpy(emp[k+1].empName,tmp.empName);
+                    strcpy(emp[k+1].empPhoneNumber,tmp.empPhoneNumber);
+                    strcpy(emp[k+1].empPos,tmp.empPos);
+                    emp[k+1].empId=tmp.empId;
+                    emp[k+1].empAge=tmp.empAge;
+                    emp[k+1].empPerformanceRate=tmp.empPerformanceRate;
+                }
+            }
+        }        
+    }
+    printf("\n--Results--\n");
+    for(j=0;j<i;j++){
+        printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
+    }
+}
+void sortPerformanceRate(){
+    FILE *fp;
+    struct EMPLOYEE emp[MAX_ARRAY_SIZE];
+    struct TEMP2 tmp;
+    int i=0,j,k;
+    if((fp=fopen("Employee-Info.txt","r"))==NULL){
+        printf("Error:performance rate sort\n");
+        exit(1);
+    }
+    while(!feof(fp)){
+        if(!ferror(fp)){
+             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp[i].empId,&emp[i].empName,&emp[i].empPhoneNumber,&emp[i].empAge,&emp[i].empPos,&emp[i].empSalary,&emp[i].empPerformanceRate);
+             i++;
+        }else{
+            printf("Error:retreiving data performance rate sort\n");
+            exit(1);
+        }
+    }
+    printf("\n---Wait, Data is being sorted---\n");
+        for(j=0;j<i;j++){
+            for(k=0;k<i-1;k++){
+                if(emp[k].empPerformanceRate<emp[k+1].empPerformanceRate){
+                    tmp.empSalary=emp[k].empSalary;
+                    strcpy(tmp.empName,emp[k].empName);
+                    strcpy(tmp.empPhoneNumber,emp[k].empPhoneNumber);
+                    strcpy(tmp.empPos,emp[k].empPos);
+                    tmp.empId=emp[k].empId;
+                    tmp.empAge=emp[k].empAge;
+                    tmp.empPerformanceRate=emp[k].empPerformanceRate;
+                    emp[k].empSalary=emp[k+1].empSalary;
+                    strcpy(emp[k].empName,emp[k+1].empName);
+                    strcpy(emp[k].empPhoneNumber,emp[k+1].empPhoneNumber);
+                    strcpy(emp[k].empPos,emp[k+1].empPos);
+                    emp[k].empId=emp[k+1].empId;
+                    emp[k].empAge=emp[k+1].empAge;
+                    emp[k].empPerformanceRate=emp[k+1].empPerformanceRate;
+                    emp[k+1].empSalary=tmp.empSalary;
+                    strcpy(emp[k+1].empName,tmp.empName);
+                    strcpy(emp[k+1].empPhoneNumber,tmp.empPhoneNumber);
+                    strcpy(emp[k+1].empPos,tmp.empPos);
+                    emp[k+1].empId=tmp.empId;
+                    emp[k+1].empAge=tmp.empAge;
+                    emp[k+1].empPerformanceRate=tmp.empPerformanceRate;
+                }
+            }
+        }        
+    printf("\n--Results--\n");
+    for(j=0;j<i;j++){
+        printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
 }
