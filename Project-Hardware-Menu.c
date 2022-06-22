@@ -4,6 +4,7 @@
 #include<ctype.h>
 #include<conio.h>
 #define managerPassword "manager@112233"
+#define MAX_ARRAY_SIZE 1000
 struct EMPLOYEE{
     long long int empId;
     char empName[100];
@@ -20,6 +21,14 @@ struct CUSTOMER{
     char itemBrandName[100];
     long long int price;
     long long int productId;
+};
+struct TEMP{
+    char customerName[100];
+    char customerPhoneNumber[100];
+    char itemName[100];
+    char itemBrandName[100];
+    long long int price;
+    long long int productId; 
 };
 struct CUSTOMERINFO{
     char customerName[100];
@@ -51,6 +60,11 @@ void searchEmpPerRate();
 void searchEmpSalary();
 void searchEmpPhone();
 void fireEmployee();
+void sortingCustomerMenu();
+void pricesSort(int order);
+void customerSort();
+void brandSort();
+void productSort();
 int main(void)
 {
     int choices;
@@ -61,7 +75,8 @@ int main(void)
         else if(choices==2) customerData();
         else if(choices==3) managerLogin();
         else if(choices==4) customersInformationSearch();
-        else if(choices==5) {
+        else if(choices==5) sortingCustomerMenu();
+        else if(choices==6) {
             printf("\n---Exiting Program---\n");
             break;
         }
@@ -76,7 +91,8 @@ int employeeMenu(){
     printf("2.Customer Informations\n");
     printf("3.Manager Menu\n");
     printf("4.Search Customers Information\n");
-    printf("5.Quit Menu\n:");
+    printf("5.Sorting information from customer data\n");
+    printf("6.Quit Menu\n:");
     scanf("%d",&optionNo);
     return optionNo;
 }
@@ -753,4 +769,309 @@ void searchEmpPhone(){
     }
     if(found==0) printf("\nNo Data found\n");
     fclose(fp);
+}
+void sortingCustomerMenu(){
+    int sortingOption;
+    printf("\n---Welcome to sorting customer menu options---\n");
+    printf("1.Sort customers informations from lowest to heighest prices\n");
+    printf("2.Sort customers informations from highest to lowest prices\n");
+    printf("3.Check Regular Customers\n");
+    printf("4.Check Demanding Brands\n");
+    printf("5.Check Demanding Products\n");
+    scanf("%d",&sortingOption);
+    if(sortingOption==1) pricesSort(1);
+    else if(sortingOption==2) pricesSort(2);
+    else if(sortingOption==3) customerSort();
+    else if(sortingOption==4) brandSort();
+    else if(sortingOption==5) productSort();
+    else printf("\nEnter a valid option number\n");
+}
+void pricesSort(int order){
+    printf("\n--Entered--\n");
+    struct CUSTOMER cus[MAX_ARRAY_SIZE];
+    struct TEMP temp;
+    FILE *fp;
+    int i=0,j,k;
+    if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+        printf("Error:while reading pricesSort");
+        exit(1);
+    }
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            i++;
+        }else{
+            printf("Error:retreiving data pricesSort\n");
+            exit(1);
+        }
+    }
+    printf("\n---Wait, Data is being sorted---\n");
+    if(order==1){
+        for(j=0;j<i;j++){
+            for(k=0;k<i-1;k++){
+                if(cus[k].price>cus[k+1].price){
+                    temp.price=cus[k].price;
+                    strcpy(temp.customerName,cus[k].customerName);
+                    strcpy(temp.customerPhoneNumber,cus[k].customerPhoneNumber);
+                    strcpy(temp.itemName,cus[k].itemName);
+                    strcpy(temp.itemBrandName,cus[k].itemBrandName);
+                    temp.productId=cus[k].productId;
+                    cus[k].price=cus[k+1].price;
+                    strcpy(cus[k].customerName,cus[k+1].customerName);
+                    strcpy(cus[k].customerPhoneNumber,cus[k+1].customerPhoneNumber);
+                    strcpy(cus[k].itemName,cus[k+1].itemName);
+                    strcpy(cus[k].itemBrandName,cus[k+1].itemBrandName);
+                    cus[k].productId=cus[k+1].productId;
+                    cus[k+1].price=temp.price;
+                    strcpy(cus[k+1].customerName,temp.customerName);
+                    strcpy(cus[k+1].customerPhoneNumber,temp.customerPhoneNumber);
+                    strcpy(cus[k+1].itemName,temp.itemName);
+                    strcpy(cus[k+1].itemBrandName,temp.itemBrandName);
+                    cus[k+1].productId=temp.productId;
+                }
+            }
+        }
+    }else if(order==2){
+        for(j=0;j<i;j++){
+            for(k=0;k<i-1;k++){
+                if(cus[k].price<cus[k+1].price){
+                    temp.price=cus[k].price;
+                    strcpy(temp.customerName,cus[k].customerName);
+                    strcpy(temp.customerPhoneNumber,cus[k].customerPhoneNumber);
+                    strcpy(temp.itemName,cus[k].itemName);
+                    strcpy(temp.itemBrandName,cus[k].itemBrandName);
+                    temp.productId=cus[k].productId;
+                    cus[k].price=cus[k+1].price;
+                    strcpy(cus[k].customerName,cus[k+1].customerName);
+                    strcpy(cus[k].customerPhoneNumber,cus[k+1].customerPhoneNumber);
+                    strcpy(cus[k].itemName,cus[k+1].itemName);
+                    strcpy(cus[k].itemBrandName,cus[k+1].itemBrandName);
+                    cus[k].productId=cus[k+1].productId;
+                    cus[k+1].price=temp.price;
+                    strcpy(cus[k+1].customerName,temp.customerName);
+                    strcpy(cus[k+1].customerPhoneNumber,temp.customerPhoneNumber);
+                    strcpy(cus[k+1].itemName,temp.itemName);
+                    strcpy(cus[k+1].itemBrandName,temp.itemBrandName);
+                    cus[k+1].productId=temp.productId;
+                }
+            }
+        }
+    }
+    printf("\n--Results--\n");
+    for(j=0;j<i;j++){
+         printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus[j].productId,cus[j].customerName,cus[j].customerPhoneNumber,cus[j].itemName,cus[j].itemBrandName,cus[j].price);
+    }
+}
+void customerSort(){
+    struct CUSTOMER cus[MAX_ARRAY_SIZE];
+    char names[100][100];
+    int customerVisits[100];
+    char tempName[100];
+    int tempValue;
+    int tempVisits=0;
+    int totalCustomers=0;
+    int maximumVisits=0;
+    int namesPresence=0;
+    FILE *fp;
+    int i=0,j,k,arrayLength=0;
+    if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+        printf("Error:customer Sort file read");
+        exit(1);
+    }
+    printf("\n---Wait, DATA IS IN PROGRESSED---\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            i++;
+        }else{
+            printf("Error:retreiving data name sort\n");
+            exit(1);
+        }
+    }
+    for(j=0;j<i;j++){
+        for(k=0;k<i;k++){
+            if(strcmp(cus[j].customerName,cus[k].customerName)==0){
+                tempVisits++;
+            }
+        }
+        for(k=0;k<j;k++){
+            if(strcmp(cus[j].customerName,names[k])==0)
+                namesPresence=1;
+        }
+        if(namesPresence==0){
+            strcpy(names[totalCustomers],cus[j].customerName);
+            customerVisits[totalCustomers]=tempVisits;
+            if(tempVisits>maximumVisits) maximumVisits=tempVisits;
+            arrayLength++;
+            totalCustomers++;
+        }
+        tempVisits=0;
+        namesPresence=0;
+    }
+    for(j=0;j<arrayLength;j++){
+        for(k=0;k<arrayLength-1;k++){
+            if(customerVisits[k]<customerVisits[k+1]){
+                tempValue=customerVisits[k];
+                strcpy(tempName,names[k]);
+                customerVisits[k]=customerVisits[k+1];
+                strcpy(names[k],names[k+1]);
+                customerVisits[k+1]=tempValue;
+                strcpy(names[k+1],tempName);
+            }
+        }
+    }
+    printf("\nYou should consider giving them some offer as they seems to be regular:\n");
+    for(j=0;j<arrayLength;j++){
+        if(customerVisits[j]>=maximumVisits)
+            printf("%s visits %d times\n",names[j],customerVisits[j]);
+    }
+    printf("------\nThey seems to be irregular\n");
+    for(j=0;j<arrayLength;j++){
+        if(customerVisits[j]<maximumVisits)
+            printf("%s visits %d times\n",names[j],customerVisits[j]);
+    }
+}
+void brandSort(){
+    struct CUSTOMER cus[MAX_ARRAY_SIZE];
+    char brandNames[100][100];
+    int brandOrders[100];
+    char tempBrandName[100];
+    int tempValue;
+    int tempOrder=0;
+    int totalBrands=0;
+    int maximumOrders=0;
+    int brandPresence=0;
+    FILE *fp;
+    int i=0,j,k,arrayLength=0;
+    if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+        printf("Error:customer soort file brand read");
+        exit(1);
+    }
+    printf("\n---Wait, DATA IS IN PROGRESSED---\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            i++;
+        }else{
+            printf("Error: retrieving data brand sort\n");
+            exit(1);
+        }
+    }
+    for(j=0;j<i;j++){
+        for(k=0;k<i;k++){
+            if(strcmp(cus[j].itemBrandName,cus[k].itemBrandName)==0){
+                tempOrder++;
+                // printf("%s=%s =%d\n",cus[j].itemBrandName,cus[k].itemBrandName,tempOrder);
+            }
+        }
+        for(k=0;k<j;k++){
+            if(strcmp(cus[j].itemBrandName,brandNames[k])==0){
+                brandPresence=1;
+            }
+        }
+        if(brandPresence==0){
+            strcpy(brandNames[totalBrands],cus[j].itemBrandName);
+            // printf("item added=%s \n",brandNames[j]);
+            brandOrders[totalBrands]=tempOrder;
+            // printf("item number=%d\n",brandOrders[j]);
+            if(tempOrder>maximumOrders) maximumOrders=tempOrder;
+            // printf("Maximum number=%d\n",maximumOrders);
+            arrayLength++;
+            totalBrands++;
+        }
+        brandPresence=0;
+        tempOrder=0;
+    }
+    for(j=0;j<arrayLength;j++){
+        for(k=0;k<arrayLength-1;k++){
+            if(brandOrders[k]<brandOrders[k+1]){
+                tempValue=brandOrders[k];
+                strcpy(tempBrandName,brandNames[k]);
+                brandOrders[k]=brandOrders[k+1];
+                strcpy(brandNames[k],brandNames[k+1]);
+                brandOrders[k+1]=tempValue;
+                strcpy(brandNames[k+1],tempBrandName);
+            }
+        }
+    }
+    printf("\nYou should consider ordering more as these brands seem to be liked by client:\n");
+    for(j=0;j<arrayLength;j++){
+        if(brandOrders[j]>=maximumOrders){
+            printf("%s\n",brandNames[j]);
+        }    
+    }
+}
+void productSort(){
+    struct CUSTOMER cus[MAX_ARRAY_SIZE];
+    char productNames[100][100];
+    int productOrders[100];
+    char tempProductName[100];
+    int tempValue;
+    int tempOrder=0;
+    int totalProduct=0;
+    int maximumOrders=0;
+    int productPresence=0;
+    FILE *fp;
+    int i=0,j,k,arrayLength=0;
+    if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
+        printf("Error:customer sort file product read");
+        exit(1);
+    }
+    printf("\n---Wait, DATA IS IN PROGRESSED---\n");
+    while(!feof(fp)){
+        if(!ferror(fp)){
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            i++;
+        }else{
+            printf("Error: retrieving data brand sort\n");
+            exit(1);
+        }
+    }
+    for(j=0;j<i;j++){
+        for(k=0;k<i;k++){
+            if(strcmp(cus[j].itemName,cus[k].itemName)==0){
+                // printf("%s %s\n",cus[j].itemName,cus[k].itemName);
+                tempOrder++;
+                // printf("%d\n",tempOrder);
+            }
+        }
+        for(k=0;k<j;k++){
+            if(strcmp(cus[j].itemName,productNames[k])==0){
+                productPresence=1;
+            }
+        }
+        if(productPresence==0){
+            strcpy(productNames[totalProduct],cus[j].itemName);
+            productOrders[totalProduct]=tempOrder;
+            // printf("temp Order=%d",tempOrder);
+            if(tempOrder>maximumOrders) maximumOrders=tempOrder;
+            arrayLength++;
+            totalProduct++;
+        }
+        productPresence=0;
+        tempOrder=0;
+    }
+    // printf("Here %d maxi\n",maximumOrders);
+    // for(j=0;j<totalProduct;j++){
+    //     printf("%s brought %d times\n",productNames[j],productOrders[j]);
+    // }
+    for(j=0;j<arrayLength;j++){
+        for(k=0;k<arrayLength-1;k++){
+            if(productOrders[k]<productOrders[k+1]){
+                tempValue=productOrders[k];
+                strcpy(tempProductName,productNames[k]);
+                productOrders[k]=productOrders[k+1];
+                strcpy(productNames[k],productNames[k+1]);
+                productOrders[k+1]=tempValue;
+                strcpy(productNames[k+1],tempProductName);
+            }
+        }
+    }
+    printf("\nYou should consider ordering more as these items seem to be liked by client:\n");
+    
+    for(j=0;j<arrayLength;j++){
+        if(productOrders[j]>=maximumOrders){
+            printf("%s\n",productNames[j]);
+        }
+    }
 }

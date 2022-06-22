@@ -6,11 +6,3 @@ Employee-Position:Asistant
 Employee-Salary:100000
 Employee-Performance-Rate:98.360000
 ------
-Employee-Id:858369
-Employee-Name:Rakib Khan
-Employee-Phone-Number:0213254163
-Employee-Age:24
-Employee-Position:Delivery Man
-Employee-Salary:60000
-Employee-Performance-Rate:89.360000
-------
