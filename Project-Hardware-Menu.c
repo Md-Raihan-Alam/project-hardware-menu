@@ -39,14 +39,6 @@ struct TEMP2{
     int empAge;
     double empPerformanceRate;
 };
-struct CUSTOMERINFO{
-    char customerName[100];
-    char customerPhoneNumber[100];
-    char itemName[100];
-    char itemBrandName[100];
-    long long int price;
-    long long int productId;
-};
 int employeeMenu();
 void customerData();
 void customerInfo();
@@ -89,12 +81,12 @@ int main(void)
         else if(choices==4) customersInformationSearch();
         else if(choices==5) sortingCustomerMenu();
         else if(choices==6) {
-            printf("\n---Exiting Program---\n");
+            printf("\n---Program Closed---\n");
             break;
         }
         else printf("Enter number between 1 to 5.\n");
     }
-    return 0;
+    getch();
 }
 int employeeMenu(){
     int optionNo;
@@ -110,7 +102,7 @@ int employeeMenu(){
 }
 void customerData(){
     FILE *fp;
-    struct CUSTOMERINFO cus;
+    struct CUSTOMER cus;
     printf("\n---Customer Informations---\n");
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error reading data\n");
@@ -167,7 +159,7 @@ void customersInformationSearch(){
     printf("4.Search by Item Name\n");
     printf("5.Search by Item Brand Name\n");
     printf("6.Search by Price\n");
-    printf("7.Quit Customer INformation Searching Menu\n:");
+    printf("7.Quit Customer Information Searching Menu\n:");
     scanf("%d",&searchChoices);
     if(searchChoices==1) searchItemId();
     else if(searchChoices==2) searchCustomerName();
@@ -243,34 +235,41 @@ void employeeData(){
     fclose(fp);
 }
 void hireEmployee(){
-    FILE *fp;
-    struct EMPLOYEE emp;
-    printf("Enter Employee Id:");
-    scanf("%lld",&emp.empId);
-    fgetc(stdin);
-    printf("Enter Employee Name:");
-    // scanf("%s",&emp.empName);
-    fgets(emp.empName,100,stdin);
-    printf("Enter Employee Position:");
-    fgets(emp.empPos,100,stdin);
-    printf("Enter Employee Phone number:");
-    // scanf("%s",&emp.empPhoneNumber);
-    fgets(emp.empPhoneNumber,100,stdin);
-    printf("Enter Employee Age:");
-    scanf("%d",&emp.empAge);
-    printf("Enter Employee Salary in bd:");
-    scanf("%lld",&emp.empSalary);
-    printf("Enter Employee Performace Rate:");
-    scanf("%lf",&emp.empPerformanceRate);
-    if((fp=fopen("Employee-Info.txt","a"))==NULL){
-        printf("Error writing employee file");
-        exit(1);
+    while(1){
+        FILE *fp;
+        struct EMPLOYEE emp;
+        printf("Enter Employee Id:");
+        scanf("%lld",&emp.empId);
+        fgetc(stdin);
+        printf("Enter Employee Name:");
+        // scanf("%s",&emp.empName);
+        fgets(emp.empName,100,stdin);
+        printf("Enter Employee Position:");
+        fgets(emp.empPos,100,stdin);
+        printf("Enter Employee Phone number:");
+        // scanf("%s",&emp.empPhoneNumber);
+        fgets(emp.empPhoneNumber,100,stdin);
+        printf("Enter Employee Age:");
+        scanf("%d",&emp.empAge);
+        printf("Enter Employee Salary in bd:");
+        scanf("%lld",&emp.empSalary);
+        printf("Enter Employee Performace Rate:");
+        scanf("%lf",&emp.empPerformanceRate);
+        if((fp=fopen("Employee-Info.txt","a"))==NULL){
+            printf("Error writing employee file");
+            exit(1);
+        }
+        if(!ferror(fp))
+            fprintf(fp,"Employee-Id:%lld\nEmployee-Name:%sEmployee-Phone-Number:%sEmployee-Age:%d\nEmployee-Position:%sEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+        else
+            printf("Error in file\n");
+        fclose(fp);
+        char ch;
+        printf("\n--Do you want to enter more data about hired employee(Y/N):");
+        ch=getche();
+        if(toupper(ch)=='N') break;
+        printf("\n");
     }
-    if(!ferror(fp))
-        fprintf(fp,"Employee-Id:%lld\nEmployee-Name:%sEmployee-Phone-Number:%sEmployee-Age:%d\nEmployee-Position:%sEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
-    else
-        printf("Error in file\n");
-    fclose(fp);
 }
 void fireEmployee(){
     FILE *fp1,*fp2;
@@ -1089,16 +1088,23 @@ void productSort(){
     }
 }
 void employeeSortingMenu(){
-    printf("\n---Welcome to addtional Infomation Menu Option---\n");
-    int sortingEmpOption;
-    printf("1.Sort By Salary from heighest to lowest\n");
-    printf("2.Sort by Salary from lowest to heighest\n");
-    printf("3.Sort by Performance Rate(highest to lowest)\n:");
-    scanf("%d",&sortingEmpOption);
-    if(sortingEmpOption==1) sortSalary(1);
-    else if(sortingEmpOption==2) sortSalary(2);
-    else if(sortingEmpOption==3) sortPerformanceRate();
-    else printf("\nEnter valid number\n");
+    while(1){
+        printf("\n---Welcome to additional Employee Infomation Menu Option---\n");
+        int sortingEmpOption;
+        printf("1.Sort By Salary from heighest to lowest\n");
+        printf("2.Sort by Salary from lowest to heighest\n");
+        printf("3.Sort by Performance Rate(highest to lowest)\n");
+        printf("4.Quit Additional information menu options\n:");
+        scanf("%d",&sortingEmpOption);
+        if(sortingEmpOption==1) sortSalary(1);
+        else if(sortingEmpOption==2) sortSalary(2);
+        else if(sortingEmpOption==3) sortPerformanceRate();
+        else if(sortingEmpOption==4) {
+            printf("\n---Quiting Additional Employee Information Menu---\n");
+            break;
+        }
+        else printf("\nEnter valid number\n");
+    }
 }
 void sortSalary(int order){
     FILE *fp;
