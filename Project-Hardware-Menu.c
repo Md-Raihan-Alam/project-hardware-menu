@@ -46,6 +46,7 @@ void managerLogin();
 int managerMenu();
 void hireEmployee();
 void employeeData();
+void changePassword();
 void customersInformationSearch();
 void searchItemId();
 void searchCustomerName();
@@ -60,7 +61,7 @@ void searchEmpPos();
 void searchEmpPerRate();
 void searchEmpSalary();
 void searchEmpPhone();
-void fireEmployee();
+void fireUpdateEmployee(int order);
 void sortingCustomerMenu();
 void pricesSort(int order);
 void customerSort();
@@ -180,14 +181,16 @@ void managerLogin(){
         while(1){
             int managerChoices=managerMenu();
             if(managerChoices==1) employeeData();
-            else if(managerChoices==2) fireEmployee();
-            else if(managerChoices==3) hireEmployee();
-            else if(managerChoices==4) customerData();
-            else if(managerChoices==5) customerInfo();
-            else if(managerChoices==6) empInformationSearch();
-            else if(managerChoices==7) customersInformationSearch();
-            else if(managerChoices==8) employeeSortingMenu();
-            else if(managerChoices==9) {
+            else if(managerChoices==2) fireUpdateEmployee(1);
+            else if(managerChoices==3) fireUpdateEmployee(2);
+            else if(managerChoices==4) hireEmployee();
+            else if(managerChoices==5) customerData();
+            else if(managerChoices==6) customerInfo();
+            else if(managerChoices==7) empInformationSearch();
+            else if(managerChoices==8) customersInformationSearch();
+            else if(managerChoices==9) employeeSortingMenu();
+            else if(managerChoices==10) changePassword();
+            else if(managerChoices==11) {
                 printf("\n---Logging out---\n");
                 break;
             }
@@ -201,13 +204,15 @@ int managerMenu(){
     printf("\n---Welcome to hardware management menu as manager---\n");
     printf("1.Employee Info\n");
     printf("2.Fire Employee\n");
-    printf("3.Hire Employee\n");
-    printf("4.Customer Informations\n");
-    printf("5.Enter selling product and customer data\n");
-    printf("6.Search Employee Informations\n");
-    printf("7.Search Customers Information\n");
-    printf("8.Additional Information About Employee\n");
-    printf("9.Log out\n:");
+    printf("3.Update Employee Performance Rate\n");
+    printf("4.Hire Employee\n");
+    printf("5.Customer Informations\n");
+    printf("6.Enter selling product and customer data\n");
+    printf("7.Search Employee Informations\n");
+    printf("8.Search Customers Information\n");
+    printf("9.Additional Information About Employee\n");
+    printf("10.Change password\n");
+    printf("11.Log out\n:");
     int manager_choices;
     scanf("%d",&manager_choices);
     return manager_choices;
@@ -271,12 +276,10 @@ void hireEmployee(){
         printf("\n");
     }
 }
-void fireEmployee(){
+void fireUpdateEmployee(int order){
     FILE *fp1,*fp2;
     long long int fireEmployeeId;
     struct EMPLOYEE emp;
-    printf("Enter the employee id you want to fire:");
-    scanf("%lld",&fireEmployeeId);
     if((fp1=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error reading employee file in fire employee function\n");
         exit(1);
@@ -285,23 +288,68 @@ void fireEmployee(){
         printf("Error creating temp file");
         exit(1);
     }
-    while(!feof(fp1)){
-        if(!ferror(fp1)){
-            fscanf(fp1,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
-            if(fireEmployeeId!=emp.empId){
-                if(!ferror(fp2))
-                    fprintf(fp2,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
-                else{
-                    printf("Error writing file temp fireEmployee");
-                    remove("temp.txt");
-                    exit(1);
-                }
+    if(order==1){
+            printf("Enter the employee id you want to fire:");
+            scanf("%lld",&fireEmployeeId);
+            int firedEmployeeFound=0;
+            while(!feof(fp1)){
+            if(!ferror(fp1)){
+                fscanf(fp1,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+                if(fireEmployeeId!=emp.empId){
+                    if(!ferror(fp2))
+                        fprintf(fp2,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+                    else{
+                        printf("Error writing file temp fireEmployee");
+                        remove("temp.txt");
+                        exit(1);
+                    }
+                }else 
+                    firedEmployeeFound=1;
+            }else{
+                printf("Error file Employee-Info.txt fireEmployee");
+                remove("temp.txt");
+                exit(1);
             }
-        }else{
-            printf("Error file Employee-Info.txt fireEmployee");
-            remove("temp.txt");
-            exit(1);
         }
+        if(firedEmployeeFound==1) 
+            printf("\n---The Employee of the Id %lld has been fired---\n",fireEmployeeId);
+        else 
+            printf("\n---No Employee of the Id %lld is found---\n",fireEmployeeId);
+    }else{
+        long long int updatedEmpId;
+        int updatedIdFound=0;
+        double updatedPerfromanceRate;
+        printf("Enter the id of the employee you want to update:");
+        scanf("%lld",&updatedEmpId);
+        printf("Enter the employee performance rate:");
+        scanf("%lf",&updatedPerfromanceRate);
+        while(!feof(fp1)){
+            if(!ferror(fp1)){
+                fscanf(fp1,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
+                if(updatedEmpId!=emp.empId){
+                    if(!ferror(fp2))
+                        fprintf(fp2,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
+                    else{
+                        printf("Error writing file temp fireEmployee");
+                        remove("temp.txt");
+                        exit(1);
+                    }
+                }else{
+                    updatedIdFound=1;
+                    if(!ferror(fp2)){
+                        fprintf(fp2,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,updatedPerfromanceRate);
+                    }
+                }
+            }else{
+                printf("Error file Employee-Info.txt fireEmployee");
+                remove("temp.txt");
+                exit(1);
+            }
+        }
+        if(updatedIdFound==0) 
+            printf("\n---No Employee of the Id %lld is found\n",updatedEmpId);
+        else 
+            printf("\n---The Employee of Id %lld performance rate has been updated---\n",updatedEmpId);
     }
     fclose(fp2);
     fclose(fp1);
