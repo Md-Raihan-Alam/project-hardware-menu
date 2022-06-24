@@ -3,7 +3,6 @@
 #include<string.h>
 #include<ctype.h>
 #include<conio.h>
-#define managerPassword "manager@112233"
 #define MAX_ARRAY_SIZE 1000
 struct EMPLOYEE{
     long long int empId;
@@ -174,10 +173,22 @@ void customersInformationSearch(){
 }
 void managerLogin(){
     printf("\n---Manager Login---\n");
-    char pass[100];
-    printf("Enter password:");
-    scanf("%s",&pass);
-    if((strcmp(pass,managerPassword))==0){
+    int i=0;
+    char pass[100],str[100],ch;
+    FILE *fp;
+    printf("Enter password:");//manager@112233
+    while((ch=_getch())!='\r'){
+        pass[i]=ch;
+        i++;
+        printf("*");
+    }
+    pass[i]='\0';
+    if((fp=fopen("managerPasswordBin","rb"))==NULL){
+        printf("Error:password bin");
+        exit(1);
+    }
+    fread(str,sizeof(str),1,fp);
+    if((strcmp(pass,str))==0){
         while(1){
             int managerChoices=managerMenu();
             if(managerChoices==1) employeeData();
@@ -1285,4 +1296,7 @@ void sortPerformanceRate(){
     for(j=0;j<i;j++){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
+}
+void changePassword(){
+//WIP
 }
