@@ -45,7 +45,7 @@ void managerLogin();
 int managerMenu();
 void hireEmployee();
 void employeeData();
-void changePassword();
+int changePassword();
 void customersInformationSearch();
 void searchItemId();
 void searchCustomerName();
@@ -176,18 +176,25 @@ void managerLogin(){
     int i=0;
     char pass[100],str[100],ch;
     FILE *fp;
-    printf("Enter password:");//manager@112233
-    while((ch=_getch())!='\r'){
-        pass[i]=ch;
-        i++;
-        printf("*");
-    }
-    pass[i]='\0';
     if((fp=fopen("managerPasswordBin","rb"))==NULL){
         printf("Error:password bin");
         exit(1);
     }
     fread(str,sizeof(str),1,fp);
+    fclose(fp);
+    printf("Enter password:");//manager@112233
+    while((ch=_getch())!='\r'){
+        if(ch=='\b'){
+            i--;
+        }
+        else{
+            pass[i]=ch;
+            i++;
+        }
+    }
+    pass[i]='\0';
+        printf(pass);
+    printf("\n");
     if((strcmp(pass,str))==0){
         while(1){
             int managerChoices=managerMenu();
@@ -200,7 +207,10 @@ void managerLogin(){
             else if(managerChoices==7) empInformationSearch();
             else if(managerChoices==8) customersInformationSearch();
             else if(managerChoices==9) employeeSortingMenu();
-            else if(managerChoices==10) changePassword();
+            else if(managerChoices==10) {
+                int success=changePassword();
+                if(success==1) break;
+            }
             else if(managerChoices==11) {
                 printf("\n---Logging out---\n");
                 break;
@@ -1297,6 +1307,56 @@ void sortPerformanceRate(){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
 }
-void changePassword(){
-//WIP
+int changePassword(){
+    printf("\n---Change Password---\n");
+    int i=0;
+    char oldPass[100],str[100],ch;
+    FILE *fp;
+    printf("Enter old password:");
+    while((ch=_getch())!='\r'){
+        if(ch=='\b'){
+            i--;
+        }
+        else{
+            oldPass[i]=ch;
+            i++;
+        }
+    }
+    oldPass[i]='\0';
+    if((fp=fopen("managerPasswordBin","rb"))==NULL){
+        printf("Error:password bin change password");
+        exit(1);
+    }
+    fread(str,sizeof(str),1,fp);
+    fclose(fp);
+    if((strcmp(oldPass,str))==0){
+       char newPass[100];
+       int j=0;
+       printf("\nEnter new password:");
+       while((ch=_getch())!='\r'){
+        if(ch=='\b'){
+            j--;    
+        }else{
+            newPass[j]=ch;
+            j++;
+        }
+       }
+       newPass[j]='\0';
+       if(strcmp(oldPass,newPass)==0){
+        printf("\n---You can not enter old password");
+       }else{
+            if((fp=fopen("managerPasswordBin","wb"))==NULL){
+            printf("Error:password bin change password");
+            exit(1);
+            }
+            fwrite(newPass,sizeof(newPass),1,fp);
+            fclose(fp);
+            printf("\n---Password has been successfully changed---\n");
+            return 1;
+       }
+    }else{
+        printf("\n---Password do not match---\n");
+        printf("\n---Failed in changing password---\n");
+        return 0;
+    }
 }
