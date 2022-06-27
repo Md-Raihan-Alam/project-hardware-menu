@@ -4,6 +4,7 @@
 #include<ctype.h>
 #include<conio.h>
 #define MAX_ARRAY_SIZE 1000
+#define CLEAR system("cls");
 struct EMPLOYEE{
     long long int empId;
     char empName[100];
@@ -20,6 +21,7 @@ struct CUSTOMER{
     char itemBrandName[100];
     long long int price;
     long long int productId;
+    char date[100];
 };
 struct TEMP{
     char customerName[100];
@@ -28,6 +30,7 @@ struct TEMP{
     char itemBrandName[100];
     long long int price;
     long long int productId; 
+    char date[100];
 };
 struct TEMP2{
     long long int empId;
@@ -73,7 +76,7 @@ int main(void)
 {
     int choices;
     while(1)
-    {
+    {  
         choices=employeeMenu();
         if(choices==1) customerInfo();
         else if(choices==2) customerData();
@@ -103,53 +106,75 @@ int employeeMenu(){
 void customerData(){
     FILE *fp;
     struct CUSTOMER cus;
+    CLEAR;
     printf("\n---Customer Informations---\n");
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error reading data\n");
+        getch();
         exit(1);
     }
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
-            printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
+            printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date);
         }else{
             printf("Error in reading customer-pricing-data.txt file");
-            exit(1);
+            getch();
         }
     }
     fclose(fp);
+    printf("\n---Done. Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void customerInfo(){
-    FILE *fp;
-    struct CUSTOMER cus;
-    printf("\n---Customer and Item Data---\n");
-    fgetc(stdin);
-    printf("Enter customer Name:");
-    fgets(cus.customerName, 100, stdin);
-    printf("Enter customer Phone number:");
-    fgets(cus.customerPhoneNumber, 100, stdin);
-    printf("Enter Item Name:");
-    fgets(cus.itemName, 100, stdin);
-    printf("Enter Item Brand Name:");
-    fgets(cus.itemBrandName, 100, stdin);
-    printf("Enter Item Id no:");
-    scanf("%lld",&cus.productId);
-    printf("Enter price in bd:");
-    scanf("%lld",&cus.price);
-    if((fp=fopen("customer-pricing-data.txt","a"))==NULL){
-        printf("It seems file needs to be created first\n");
-        exit(1);
+    while(1)
+    {
+        char ch;
+        FILE *fp;
+        struct CUSTOMER cus;
+        while(1){
+            printf("\n---Customer and Item Data---\n");
+            fgetc(stdin);
+            printf("Enter customer Name:");
+            fgets(cus.customerName, 100, stdin);
+            printf("Enter customer Phone number:");
+            fgets(cus.customerPhoneNumber, 100, stdin);
+            printf("Enter Item Name:");
+            fgets(cus.itemName, 100, stdin);
+            printf("Enter Item Brand Name:");
+            fgets(cus.itemBrandName, 100, stdin);
+            printf("Enter date:");
+            fgets(cus.date,100,stdin);
+            printf("Enter Item Id no:");
+            scanf("%lld",&cus.productId);
+            printf("Enter price in bd:");
+            scanf("%lld",&cus.price);
+            printf("Are all data is correct and you want to enter? You won\'t get a chance to change it letter. Enter \'Y\' to confirm or any other button to reapeat:");
+            char ch;
+            ch=getche();
+            if(ch=='Y') break;
+        }
+        if((fp=fopen("customer-pricing-data.txt","a"))==NULL){
+            printf("It seems file needs to be created first\n");
+            getch();
+            exit(1);
+        }
+        if(!ferror(fp)) 
+            fprintf(fp,"Product-Id:%lld\nCustomer-Name:%sCustomer-Phone-Number:%sItem-Name:%sItem-Brand-Name:%sPrice:%lld\nDate:%s------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date);
+        else {
+            printf("Error writing data\n");
+            getch();
+        }
+        fclose(fp);
+        printf("\n");
+        printf("Do you want to enter any more customer information if not then please enter \'N\':");
+        if(toupper(ch=getche())=='N') break;
+        printf("\n");
     }
-    if(!ferror(fp)) 
-        fprintf(fp,"Product-Id:%lld\nCustomer-Name:%sCustomer-Phone-Number:%sItem-Name:%sItem-Brand-Name:%sPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price);
-    else {
-        printf("Error writing data\n");
-        exit(1);
-    }
-    fclose(fp);
-    printf("\n");
 }
 void customersInformationSearch(){
+    CLEAR;
     while(1){
     printf("\n---WELCOME TO CUSTOMER INFORMATION SEARCHING OPTIONS---\n");
     int searchChoices;
@@ -167,7 +192,10 @@ void customersInformationSearch(){
     else if(searchChoices==4) searchItemName();
     else if(searchChoices==5) searchBrandName();
     else if(searchChoices==6) searchPrices();
-    else if(searchChoices==7) break;
+    else if(searchChoices==7) {
+        CLEAR;
+        break;
+    }
     else printf("\nEnter proper number next time\n");
     }
 }
@@ -178,6 +206,7 @@ void managerLogin(){
     FILE *fp;
     if((fp=fopen("managerPasswordBin","rb"))==NULL){
         printf("Error:password bin");
+        getch();
         exit(1);
     }
     fread(str,sizeof(str),1,fp);
@@ -196,6 +225,7 @@ void managerLogin(){
         printf(pass);
     printf("\n");
     if((strcmp(pass,str))==0){
+        CLEAR;
         while(1){
             int managerChoices=managerMenu();
             if(managerChoices==1) employeeData();
@@ -213,6 +243,8 @@ void managerLogin(){
             }
             else if(managerChoices==11) {
                 printf("\n---Logging out---\n");
+                // system("cls");
+                CLEAR;
                 break;
             }
             else printf("Enter proper number between 1 to 5\n");
@@ -242,6 +274,7 @@ void employeeData(){
     FILE *fp;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error reading file. restart the program");
+        getch();
         exit(1);
     }
     struct EMPLOYEE emp;
@@ -251,7 +284,7 @@ void employeeData(){
     {
         if(ferror(fp)){
             printf("Error in file\n");
-            exit(1);
+            getch();
         }else{
             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
             // printf("%lld\t\t%s\t\t%s\t\t%d\t\t%s\t%20lld\t%lf\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
@@ -283,6 +316,7 @@ void hireEmployee(){
         scanf("%lf",&emp.empPerformanceRate);
         if((fp=fopen("Employee-Info.txt","a"))==NULL){
             printf("Error writing employee file");
+            getch();
             exit(1);
         }
         if(!ferror(fp))
@@ -303,10 +337,12 @@ void fireUpdateEmployee(int order){
     struct EMPLOYEE emp;
     if((fp1=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error reading employee file in fire employee function\n");
+        getch();
         exit(1);
     }
     if((fp2=fopen("temp.txt","a"))==NULL){
         printf("Error creating temp file");
+        getch();
         exit(1);
     }
     if(order==1){
@@ -322,14 +358,14 @@ void fireUpdateEmployee(int order){
                     else{
                         printf("Error writing file temp fireEmployee");
                         remove("temp.txt");
-                        exit(1);
+                        getch();
                     }
                 }else 
                     firedEmployeeFound=1;
             }else{
                 printf("Error file Employee-Info.txt fireEmployee");
                 remove("temp.txt");
-                exit(1);
+                getch();
             }
         }
         if(firedEmployeeFound==1) 
@@ -353,7 +389,7 @@ void fireUpdateEmployee(int order){
                     else{
                         printf("Error writing file temp fireEmployee");
                         remove("temp.txt");
-                        exit(1);
+                        getch();
                     }
                 }else{
                     updatedIdFound=1;
@@ -364,7 +400,7 @@ void fireUpdateEmployee(int order){
             }else{
                 printf("Error file Employee-Info.txt fireEmployee");
                 remove("temp.txt");
-                exit(1);
+                getch();
             }
         }
         if(updatedIdFound==0) 
@@ -377,10 +413,12 @@ void fireUpdateEmployee(int order){
     remove("Employee-Info.txt");
     if((fp1=fopen("Employee-Info.txt","a"))==NULL){
         printf("Error recreating file 1 fireEmployee\n");
+        getch();
         exit(1);
     }
     if((fp2=fopen("temp.txt","r"))==NULL){
         printf("Error reading temp file fireEmployee");
+        getch();
         exit(1);
     }
     while(!feof(fp2)){
@@ -390,12 +428,12 @@ void fireUpdateEmployee(int order){
                 fprintf(fp1,"Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp.empId,emp.empName,emp.empPhoneNumber,emp.empAge,emp.empPos,emp.empSalary,emp.empPerformanceRate);
             else{
                 printf("Error writng file 1 hireEmployee\n");
-                exit(1);
+                getch();
             }
         }else{
             printf("Error in file 2 fireEmployee");
             remove("temp.txt");
-            exit(1);
+            getch();
         }
     }
     fclose(fp2);
@@ -407,32 +445,38 @@ void searchItemId(){
     int found=0;
     FILE *fp;
     struct CUSTOMER cus;
+    CLEAR;
     printf("\n\nEnter the product Id you want to search:");
     scanf("%lld",&searchProductId);
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
             if(cus.productId==searchProductId){
                 found=1;
-               printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+               printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
+    printf("\n---Click any button to return to search menu---\n");
+    getch();
+    CLEAR;
     fclose(fp);
 }
 void searchCustomerName(){
     int found=0;
     char searchCusName[100];
     FILE *fp;
+    CLEAR;
     struct CUSTOMER cus;
     fgetc(stdin);
     printf("\n\nEnter the customer name you want to search:");
@@ -440,30 +484,35 @@ void searchCustomerName(){
     searchCusName[strcspn(searchCusName, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
-    printf(searchCusName);
+    // printf(searchCusName);
     printf("\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
             if(strcmp(cus.customerName,searchCusName)==0){
                 found=1;
-                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
+    printf("\n---Click any button to return to search menu---\n");
+    getch();
+    CLEAR;
     fclose(fp);
 }
 void searchPhoneNumber(){
     int found=0;
     char searchPhoNum[100];
     FILE *fp;
+    CLEAR;
     struct CUSTOMER cus;
     fgetc(stdin);
     printf("\n\nEnter the customer phone number you want to search:");
@@ -471,28 +520,33 @@ void searchPhoneNumber(){
     searchPhoNum[strcspn(searchPhoNum, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
             if(strcmp(cus.customerPhoneNumber,searchPhoNum)==0){
                 found=1;
-                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
+    printf("\n---Click any button to return to search menu---\n");
+    getch();
+    CLEAR;
     fclose(fp);
 }
 void searchItemName(){
     int found=0;
     char searchItName[100];
     FILE *fp;
+    CLEAR;
     struct CUSTOMER cus;
     fgetc(stdin);
     printf("\n\nEnter the Item name you want to search:");
@@ -500,29 +554,34 @@ void searchItemName(){
     searchItName[strcspn(searchItName, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
             // printf("%s %d %s\n",searchItName,strcmp(searchItName,cus.itemName),cus.itemName);
             if(strcmp(cus.itemName,searchItName)==0){
                 found=1;
-                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
+    printf("\n---Click any button to return to search menu---\n");
+    getch();
+    CLEAR;
     fclose(fp);
 }
 void searchBrandName(){
     int found=0;
     char searchBrand[100];
     FILE *fp;
+    CLEAR;
     struct CUSTOMER cus;
     fgetc(stdin);
     printf("\n\nEnter the Item Brand name you want to search:");
@@ -530,26 +589,31 @@ void searchBrandName(){
     searchBrand[strcspn(searchBrand, "\n")] = 0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error in searching the file with product id");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
             if(strcmp(cus.itemBrandName,searchBrand)==0){
                 found=1;
-                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
+    printf("\n---Click any button to return to search menu---\n");
+    getch();
+    CLEAR;
     fclose(fp);
 }
 void searchPrices(){
     char ch;
+    CLEAR;
     printf("\n\nDo you wish to select a range?\n(Select Y for range/Select N for specific number)\n:");
     ch=getche();
     if(toupper(ch)=='Y'){
@@ -564,22 +628,26 @@ void searchPrices(){
         scanf("%lld",&highestRange);
         if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
             printf("Error in searching the file with price");
+            getch();
             exit(1);
         }
         printf("\n---Search Results---:\n");
         while(!feof(fp)){
             if(!ferror(fp)){
-                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
                 if((cus.price>=lowestRange) && (cus.price<=highestRange)){
                     found=1;
-                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
                 }
             }else{
                 printf("Error in file while searching by price");
-                exit(1);
+                getch();
             }
         }
         if(found==0) printf("\nNo Data found\n");
+        printf("\n---Click any button to return to search menu---\n");
+        getch();
+        CLEAR;
         fclose(fp);
     }else if(toupper(ch)=='N'){
         long long int searchPrice;
@@ -590,22 +658,26 @@ void searchPrices(){
         scanf("%lld",&searchPrice);
         if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
             printf("Error in searching the file with price");
+            getch();
             exit(1);
         }
         printf("\n---Search Results---:\n");
         while(!feof(fp)){
             if(!ferror(fp)){
-                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price);
+                fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus.productId,&cus.customerName,&cus.customerPhoneNumber,&cus.itemName,&cus.itemBrandName,&cus.price,&cus.date);
                 if(cus.price==searchPrice){
                     found=1;
-                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price); 
+                   printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus.productId,cus.customerName,cus.customerPhoneNumber,cus.itemName,cus.itemBrandName,cus.price,cus.date); 
                 }
             }else{
                 printf("Error in file while searching by price");
-                exit(1);
+                getch();
             }
         }
         if(found==0) printf("\nNo Data found\n");
+        printf("\n---Click any button to return to search menu---\n");
+        getch();
+        CLEAR;
         fclose(fp);
     }
 }
@@ -640,6 +712,7 @@ void searchEmpId(){
     scanf("%lld",&empPerId);
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error opening employee file in search mode\n");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
@@ -651,7 +724,7 @@ void searchEmpId(){
             }
         }else{
             printf("Error in file while searching employee id\n");
-            exit(1);
+            getch();
         }
     }
     fclose(fp);
@@ -667,6 +740,7 @@ void searchEmpName(){
     searchEmpNam[strcspn(searchEmpNam, "\n")] = 0;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error in searching the file with employee name");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
@@ -679,7 +753,7 @@ void searchEmpName(){
             }
         }else{
             printf("Error in file while searching employee name\n");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
@@ -696,6 +770,7 @@ void searchEmpPos(){
     searchEmpPos[strcspn(searchEmpPos, "\n")] = 0;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error in searching the file with employee name");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
@@ -708,7 +783,7 @@ void searchEmpPos(){
             }
         }else{
             printf("Error in file while searching employee position\n");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
@@ -724,6 +799,7 @@ void searchEmpPerRate(){
     scanf("%lf",&searchEmpPerformanceR);
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error opening employee file in search mode\n");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
@@ -737,13 +813,14 @@ void searchEmpPerRate(){
             }
         }else{
             printf("Error in file while searching employee id\n");
-            exit(1);
+            getch();
         }
     }
     if(pasFound==0) printf("\nNo one passed\n");
     fclose(fp);
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error opening employee file in search mode\n");
+        getch();
         exit(1);
     }
     printf("\nThose who are below the rate you have set:\n");
@@ -756,7 +833,7 @@ void searchEmpPerRate(){
             }
         }else{
             printf("Error in file while searching employee id\n");
-            exit(1);
+            getch();
         }
     }
     if(failFound==0) printf("\nNo one failed\n");
@@ -778,6 +855,7 @@ void searchEmpSalary(){
         scanf("%lld",&highestRange);
         if((fp=fopen("Employee-Info.txt","r"))==NULL){
             printf("Error in searching the file with salary");
+            getch();
             exit(1);
         }
         printf("\n---Search Results---:\n");
@@ -790,7 +868,7 @@ void searchEmpSalary(){
                 }
             }else{
                 printf("Error in file while searching by price");
-                exit(1);
+                getch();
             }
         }
         if(found==0) printf("\nNo Data found\n");
@@ -804,6 +882,7 @@ void searchEmpSalary(){
         scanf("%lld",&searchSalary);
         if((fp=fopen("Employee-Info.txt","r"))==NULL){
             printf("Error in searching the file with salary");
+            getch();
             exit(1);
         }
         printf("\n---Search Results---:\n");
@@ -816,7 +895,7 @@ void searchEmpSalary(){
                 }
             }else{
                 printf("Error in file while searching by price");
-                exit(1);
+                getch();
             }
         }
         if(found==0) printf("\nNo Data found\n");
@@ -834,6 +913,7 @@ void searchEmpPhone(){
     searchEmpPhoneNumber[strcspn(searchEmpPhoneNumber, "\n")] = 0;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error in searching the file with employee text number\n");
+        getch();
         exit(1);
     }
     printf("\n---Search Results---:\n");
@@ -846,7 +926,7 @@ void searchEmpPhone(){
             }
         }else{
             printf("Error in file while searching by item id");
-            exit(1);
+            getch();
         }
     }
     if(found==0) printf("\nNo Data found\n");
@@ -875,15 +955,16 @@ void pricesSort(int order){
     int i=0,j,k;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error:while reading pricesSort");
+        getch();
         exit(1);
     }
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price,&cus[i].date);
             i++;
         }else{
             printf("Error:retreiving data pricesSort\n");
-            exit(1);
+            getch();
         }
     }
     printf("\n---Wait, Data is being sorted---\n");
@@ -896,18 +977,21 @@ void pricesSort(int order){
                     strcpy(temp.customerPhoneNumber,cus[k].customerPhoneNumber);
                     strcpy(temp.itemName,cus[k].itemName);
                     strcpy(temp.itemBrandName,cus[k].itemBrandName);
+                    strcpy(temp.date,cus[k].date);
                     temp.productId=cus[k].productId;
                     cus[k].price=cus[k+1].price;
                     strcpy(cus[k].customerName,cus[k+1].customerName);
                     strcpy(cus[k].customerPhoneNumber,cus[k+1].customerPhoneNumber);
                     strcpy(cus[k].itemName,cus[k+1].itemName);
                     strcpy(cus[k].itemBrandName,cus[k+1].itemBrandName);
+                    strcpy(cus[k].date,cus[k+1].date);
                     cus[k].productId=cus[k+1].productId;
                     cus[k+1].price=temp.price;
                     strcpy(cus[k+1].customerName,temp.customerName);
                     strcpy(cus[k+1].customerPhoneNumber,temp.customerPhoneNumber);
                     strcpy(cus[k+1].itemName,temp.itemName);
                     strcpy(cus[k+1].itemBrandName,temp.itemBrandName);
+                    strcpy(cus[k+1].date,temp.date);
                     cus[k+1].productId=temp.productId;
                 }
             }
@@ -921,27 +1005,31 @@ void pricesSort(int order){
                     strcpy(temp.customerPhoneNumber,cus[k].customerPhoneNumber);
                     strcpy(temp.itemName,cus[k].itemName);
                     strcpy(temp.itemBrandName,cus[k].itemBrandName);
+                    strcpy(temp.date,cus[k].date);
                     temp.productId=cus[k].productId;
                     cus[k].price=cus[k+1].price;
                     strcpy(cus[k].customerName,cus[k+1].customerName);
                     strcpy(cus[k].customerPhoneNumber,cus[k+1].customerPhoneNumber);
                     strcpy(cus[k].itemName,cus[k+1].itemName);
                     strcpy(cus[k].itemBrandName,cus[k+1].itemBrandName);
+                    strcpy(cus[k].date,cus[k+1].date);
                     cus[k].productId=cus[k+1].productId;
                     cus[k+1].price=temp.price;
                     strcpy(cus[k+1].customerName,temp.customerName);
                     strcpy(cus[k+1].customerPhoneNumber,temp.customerPhoneNumber);
                     strcpy(cus[k+1].itemName,temp.itemName);
                     strcpy(cus[k+1].itemBrandName,temp.itemBrandName);
+                    strcpy(cus[k+1].date,temp.date);
                     cus[k+1].productId=temp.productId;
                 }
             }
         }
     }
-    printf("\n--Results--\n");
+    printf("\n---Results---\n");
     for(j=0;j<i;j++){
-         printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\n------\n",cus[j].productId,cus[j].customerName,cus[j].customerPhoneNumber,cus[j].itemName,cus[j].itemBrandName,cus[j].price);
+         printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus[j].productId,cus[j].customerName,cus[j].customerPhoneNumber,cus[j].itemName,cus[j].itemBrandName,cus[j].price,cus[j].date);
     }
+    printf("\n---Done---\n");
 }
 void customerSort(){
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -957,16 +1045,17 @@ void customerSort(){
     int i=0,j,k,arrayLength=0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error:customer Sort file read");
+        getch();
         exit(1);
     }
     printf("\n---Wait, DATA IS IN PROGRESSED---\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price,&cus[i].price);
             i++;
         }else{
             printf("Error:retreiving data name sort\n");
-            exit(1);
+            getch();
         }
     }
     for(j=0;j<i;j++){
@@ -1001,16 +1090,21 @@ void customerSort(){
             }
         }
     }
-    printf("\nYou should consider giving them some offer as they seems to be regular:\n");
-    for(j=0;j<arrayLength;j++){
-        if(customerVisits[j]>=maximumVisits)
-            printf("%s visits %d times\n",names[j],customerVisits[j]);
+    if(maximumVisits>1){
+        printf("\nYou should consider giving them some offer as they seems to be regular:\n");
+        for(j=0;j<arrayLength;j++){
+            if(customerVisits[j]>=maximumVisits)
+                printf("%s visits %d times\n",names[j],customerVisits[j]);
+        }
+        printf("------\nThey seems to be irregular\n");
+        for(j=0;j<arrayLength;j++){
+            if(customerVisits[j]<maximumVisits)
+                printf("%s visits %d times\n",names[j],customerVisits[j]);
+        }
+    }else{
+        printf("\nNo one seems to be deserve special offer\b");
     }
-    printf("------\nThey seems to be irregular\n");
-    for(j=0;j<arrayLength;j++){
-        if(customerVisits[j]<maximumVisits)
-            printf("%s visits %d times\n",names[j],customerVisits[j]);
-    }
+    printf("\n---Done---\n");
 }
 void brandSort(){
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1026,16 +1120,17 @@ void brandSort(){
     int i=0,j,k,arrayLength=0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error:customer soort file brand read");
+        getch();
         exit(1);
     }
     printf("\n---Wait, DATA IS IN PROGRESSED---\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price,&cus[i].date);
             i++;
         }else{
             printf("Error: retrieving data brand sort\n");
-            exit(1);
+            getch();
         }
     }
     for(j=0;j<i;j++){
@@ -1076,11 +1171,16 @@ void brandSort(){
         }
     }
     printf("\nYou should consider ordering more as these brands seem to be liked by client:\n");
-    for(j=0;j<arrayLength;j++){
-        if(brandOrders[j]>=maximumOrders){
-            printf("%s\n",brandNames[j]);
-        }    
+    if(maximumOrders>1){
+        for(j=0;j<arrayLength;j++){
+            if(brandOrders[j]>=maximumOrders){
+                printf("%s\n was brought %d times",brandNames[j],brandOrders[j]);
+            }    
+        }
+    }else{
+        printf("\nNo Item brands seems to be that demand yet!\n");
     }
+    printf("\n---Done---\n");
 }
 void productSort(){
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1096,16 +1196,17 @@ void productSort(){
     int i=0,j,k,arrayLength=0;
     if((fp=fopen("customer-pricing-data.txt","r"))==NULL){
         printf("Error:customer sort file product read");
+        getch();
         exit(1);
     }
     printf("\n---Wait, DATA IS IN PROGRESSED---\n");
     while(!feof(fp)){
         if(!ferror(fp)){
-            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price);
+            fscanf(fp,"Product-Id:%lld\nCustomer-Name:%99[^\n]\nCustomer-Phone-Number:%99[^\n]\nItem-Name:%99[^\n]\nItem-Brand-Name:%99[^\n]\nPrice:%lld\nDate:%99[^\n]\n------\n",&cus[i].productId,&cus[i].customerName,&cus[i].customerPhoneNumber,&cus[i].itemName,&cus[i].itemBrandName,&cus[i].price,&cus[i].date);
             i++;
         }else{
             printf("Error: retrieving data brand sort\n");
-            exit(1);
+            getch();
         }
     }
     for(j=0;j<i;j++){
@@ -1148,13 +1249,17 @@ void productSort(){
             }
         }
     }
-    printf("\nYou should consider ordering more as these items seem to be liked by client:\n");
-    
-    for(j=0;j<arrayLength;j++){
-        if(productOrders[j]>=maximumOrders){
-            printf("%s\n",productNames[j]);
+    if(maximumOrders>1){
+        printf("\nYou should consider ordering more as these items seem to be liked by client:\n");
+        for(j=0;j<arrayLength;j++){
+            if(productOrders[j]>=maximumOrders){
+                printf("%s\n",productNames[j]);
+            }
         }
+    }else{
+        printf("\nNo items seems to be that liked\n");
     }
+    printf("\n---Done--\n");
 }
 void employeeSortingMenu(){
     while(1){
@@ -1182,6 +1287,7 @@ void sortSalary(int order){
     int i=0,j,k;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error:sort salary\n");
+        getch();
         exit(1);
     }
     while(!feof(fp)){
@@ -1190,7 +1296,7 @@ void sortSalary(int order){
              i++;
         }else{
             printf("Error:retreiving data sort salary\n");
-            exit(1);
+            getch();
         }
     }
     printf("\n---Wait, Data is being sorted---\n");
@@ -1255,6 +1361,7 @@ void sortSalary(int order){
     for(j=0;j<i;j++){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
+    printf("\n---Done---\n");
 }
 void sortPerformanceRate(){
     FILE *fp;
@@ -1263,6 +1370,7 @@ void sortPerformanceRate(){
     int i=0,j,k;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error:performance rate sort\n");
+        getch();
         exit(1);
     }
     while(!feof(fp)){
@@ -1271,7 +1379,7 @@ void sortPerformanceRate(){
              i++;
         }else{
             printf("Error:retreiving data performance rate sort\n");
-            exit(1);
+            getch();
         }
     }
     printf("\n---Wait, Data is being sorted---\n");
@@ -1306,6 +1414,7 @@ void sortPerformanceRate(){
     for(j=0;j<i;j++){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
+    printf("\n---Done---\n");
 }
 int changePassword(){
     printf("\n---Change Password---\n");
@@ -1325,6 +1434,7 @@ int changePassword(){
     oldPass[i]='\0';
     if((fp=fopen("managerPasswordBin","rb"))==NULL){
         printf("Error:password bin change password");
+        getch();
         exit(1);
     }
     fread(str,sizeof(str),1,fp);
@@ -1347,6 +1457,7 @@ int changePassword(){
        }else{
             if((fp=fopen("managerPasswordBin","wb"))==NULL){
             printf("Error:password bin change password");
+            getch();
             exit(1);
             }
             fwrite(newPass,sizeof(newPass),1,fp);
