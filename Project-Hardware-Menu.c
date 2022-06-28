@@ -128,6 +128,7 @@ void customerData(){
     CLEAR;
 }
 void customerInfo(){
+    CLEAR;
     while(1)
     {
         char ch;
@@ -150,7 +151,7 @@ void customerInfo(){
             scanf("%lld",&cus.productId);
             printf("Enter price in bd:");
             scanf("%lld",&cus.price);
-            printf("Are all data is correct and you want to enter? You won\'t get a chance to change it letter. Enter \'Y\' to confirm or any other button to reapeat:");
+            printf("Are all data is correct and you want to enter? \nYou won\'t get a chance to change it letter. Enter \'Y\' to confirm or any other button to repeat:");
             char ch;
             ch=getche();
             if(ch=='Y') break;
@@ -169,7 +170,10 @@ void customerInfo(){
         fclose(fp);
         printf("\n");
         printf("Do you want to enter any more customer information if not then please enter \'N\':");
-        if(toupper(ch=getche())=='N') break;
+        if(toupper(ch=getche())=='N') {
+            CLEAR;
+            break;
+        }
         printf("\n");
     }
 }
@@ -237,11 +241,12 @@ void managerLogin(){
             else if(managerChoices==7) empInformationSearch();
             else if(managerChoices==8) customersInformationSearch();
             else if(managerChoices==9) employeeSortingMenu();
-            else if(managerChoices==10) {
+            else if(managerChoices==10) sortingCustomerMenu();
+            else if(managerChoices==11) {
                 int success=changePassword();
                 if(success==1) break;
             }
-            else if(managerChoices==11) {
+            else if(managerChoices==12) {
                 printf("\n---Logging out---\n");
                 // system("cls");
                 CLEAR;
@@ -264,13 +269,15 @@ int managerMenu(){
     printf("7.Search Employee Informations\n");
     printf("8.Search Customers Information\n");
     printf("9.Additional Information About Employee\n");
-    printf("10.Change password\n");
-    printf("11.Log out\n:");
+    printf("10.Additional Information About Customer\n");
+    printf("11.Change password\n");
+    printf("12.Log out\n:");
     int manager_choices;
     scanf("%d",&manager_choices);
     return manager_choices;
 }
 void employeeData(){
+    CLEAR;
     FILE *fp;
     if((fp=fopen("Employee-Info.txt","r"))==NULL){
         printf("Error reading file. restart the program");
@@ -292,9 +299,14 @@ void employeeData(){
         }
     }
     fclose(fp);
+    printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void hireEmployee(){
     while(1){
+        CLEAR;
         FILE *fp;
         struct EMPLOYEE emp;
         printf("Enter Employee Id:");
@@ -330,8 +342,13 @@ void hireEmployee(){
         if(toupper(ch)=='N') break;
         printf("\n");
     }
+    printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void fireUpdateEmployee(int order){
+    CLEAR;
     FILE *fp1,*fp2;
     long long int fireEmployeeId;
     struct EMPLOYEE emp;
@@ -370,8 +387,10 @@ void fireUpdateEmployee(int order){
         }
         if(firedEmployeeFound==1) 
             printf("\n---The Employee of the Id %lld has been fired---\n",fireEmployeeId);
-        else 
+        else {
             printf("\n---No Employee of the Id %lld is found---\n",fireEmployeeId);
+            remove("temp.txt");
+        }
     }else{
         long long int updatedEmpId;
         int updatedIdFound=0;
@@ -405,8 +424,10 @@ void fireUpdateEmployee(int order){
         }
         if(updatedIdFound==0) 
             printf("\n---No Employee of the Id %lld is found\n",updatedEmpId);
-        else 
+        else{
             printf("\n---The Employee of Id %lld performance rate has been updated---\n",updatedEmpId);
+            remove("temp.txt");
+        } 
     }
     fclose(fp2);
     fclose(fp1);
@@ -439,6 +460,10 @@ void fireUpdateEmployee(int order){
     fclose(fp2);
     fclose(fp1);
     remove("temp.txt");
+    printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void searchItemId(){
     long long int searchProductId;
@@ -682,6 +707,7 @@ void searchPrices(){
     }
 }
 void empInformationSearch(){
+    CLEAR;
    while(1){
     printf("\n---WELCOME TO EMPLOYEE INFORMATION SEARCHING OPTION---\n");
    int empOption;
@@ -699,11 +725,15 @@ void empInformationSearch(){
    else if(empOption==4) searchEmpPerRate();
    else if(empOption==5) searchEmpSalary();
    else if(empOption==6) searchEmpPhone();
-   else if(empOption==7) break;
+   else if(empOption==7) {
+    CLEAR;
+    break;
+   }
    else printf("Please enter valid number\n");
    }
 }
 void searchEmpId(){
+    CLEAR;
     FILE *fp;
     long long int empPerId;
     struct EMPLOYEE emp;
@@ -728,11 +758,16 @@ void searchEmpId(){
         }
     }
     fclose(fp);
+    printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void searchEmpName(){
     int found=0;
     char searchEmpNam[100];
     FILE *fp;
+    CLEAR;
     struct EMPLOYEE emp;
     fgetc(stdin);
     printf("\n\nEnter the employee name you want to search:");
@@ -758,11 +793,15 @@ void searchEmpName(){
     }
     if(found==0) printf("\nNo Data found\n");
     fclose(fp);
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void searchEmpPos(){
     int found=0;
     char searchEmpPos[100];
     FILE *fp;
+    CLEAR;
     struct EMPLOYEE emp;
     fgetc(stdin);
     printf("\n\nEnter the employee position you want to search:");
@@ -788,11 +827,15 @@ void searchEmpPos(){
     }
     if(found==0) printf("\nNo Data found\n");
     fclose(fp);
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void searchEmpPerRate(){
     FILE *fp;
     double searchEmpPerformanceR;
     struct EMPLOYEE emp;
+    CLEAR;
     int pasFound=0;
     int failFound=0;
     printf("\nEnter the passing rate for the employees:");
@@ -803,7 +846,7 @@ void searchEmpPerRate(){
         exit(1);
     }
     printf("\n---Search Results---:\n");
-    printf("\nThose who are equal or above the rate you have set:\n");
+    printf("\n---Those who are equal or above the rate you have set---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
@@ -823,7 +866,7 @@ void searchEmpPerRate(){
         getch();
         exit(1);
     }
-    printf("\nThose who are below the rate you have set:\n");
+    printf("\n---Those who are below the rate you have set---:\n");
     while(!feof(fp)){
         if(!ferror(fp)){
             fscanf(fp,"Employee-Id:%lld\nEmployee-Name:%99[^\n]\nEmployee-Phone-Number:%99[^\n]\nEmployee-Age:%d\nEmployee-Position:%99[^\n]\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",&emp.empId,&emp.empName,&emp.empPhoneNumber,&emp.empAge,&emp.empPos,&emp.empSalary,&emp.empPerformanceRate);
@@ -838,9 +881,13 @@ void searchEmpPerRate(){
     }
     if(failFound==0) printf("\nNo one failed\n");
     fclose(fp);
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void searchEmpSalary(){
     char ch;
+    CLEAR;
     printf("\n\nDo you wish to select a range?\n(Select Y for range/Select N for specific number)\n:");
     ch=getche();
     if(toupper(ch)=='Y'){
@@ -901,9 +948,13 @@ void searchEmpSalary(){
         if(found==0) printf("\nNo Data found\n");
         fclose(fp);
     }
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void searchEmpPhone(){
     int found=0;
+    CLEAR;
     char searchEmpPhoneNumber[100];
     FILE *fp;
     struct EMPLOYEE emp;
@@ -931,24 +982,36 @@ void searchEmpPhone(){
     }
     if(found==0) printf("\nNo Data found\n");
     fclose(fp);
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void sortingCustomerMenu(){
     int sortingOption;
-    printf("\n---Welcome to sorting customer menu options---\n");
-    printf("1.Sort customers informations from lowest to heighest prices\n");
-    printf("2.Sort customers informations from highest to lowest prices\n");
-    printf("3.Check Regular Customers\n");
-    printf("4.Check Demanding Brands\n");
-    printf("5.Check Demanding Products\n");
-    scanf("%d",&sortingOption);
-    if(sortingOption==1) pricesSort(1);
-    else if(sortingOption==2) pricesSort(2);
-    else if(sortingOption==3) customerSort();
-    else if(sortingOption==4) brandSort();
-    else if(sortingOption==5) productSort();
-    else printf("\nEnter a valid option number\n");
+    CLEAR;
+    while(1){
+        printf("\n---Welcome to sorting customer menu options---\n");
+        printf("1.Sort customers informations from lowest to heighest prices\n");
+        printf("2.Sort customers informations from highest to lowest prices\n");
+        printf("3.Check Regular Customers\n");
+        printf("4.Check Demanding Brands\n");
+        printf("5.Check Demanding Products\n");
+        printf("6.Quit to Menu\n:");
+        scanf("%d",&sortingOption);
+        if(sortingOption==1) pricesSort(1);
+        else if(sortingOption==2) pricesSort(2);
+        else if(sortingOption==3) customerSort();
+        else if(sortingOption==4) brandSort();
+        else if(sortingOption==5) productSort();
+        else if(sortingOption==6) {
+            CLEAR;
+            break;
+        }
+        else printf("\nEnter a valid option number\n");
+    }
 }
 void pricesSort(int order){
+    CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
     struct TEMP temp;
     FILE *fp;
@@ -1025,13 +1088,18 @@ void pricesSort(int order){
             }
         }
     }
+    printf("\n---Prices Sort---\n");
     printf("\n---Results---\n");
     for(j=0;j<i;j++){
          printf("Product-Id:%lld\nCustomer-Name:%s\nCustomer-Phone-Number:%s\nItem-Name:%s\nItem-Brand-Name:%s\nPrice:%lld\nDate:%s\n------\n",cus[j].productId,cus[j].customerName,cus[j].customerPhoneNumber,cus[j].itemName,cus[j].itemBrandName,cus[j].price,cus[j].date);
     }
     printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void customerSort(){
+    CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
     char names[100][100];
     int customerVisits[100];
@@ -1105,8 +1173,12 @@ void customerSort(){
         printf("\nNo one seems to be deserve special offer\b");
     }
     printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void brandSort(){
+    CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
     char brandNames[100][100];
     int brandOrders[100];
@@ -1174,15 +1246,19 @@ void brandSort(){
     if(maximumOrders>1){
         for(j=0;j<arrayLength;j++){
             if(brandOrders[j]>=maximumOrders){
-                printf("%s\n was brought %d times",brandNames[j],brandOrders[j]);
+                printf("\n%s was brought %d times\n",brandNames[j],brandOrders[j]);
             }    
         }
     }else{
         printf("\nNo Item brands seems to be that demand yet!\n");
     }
     printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void productSort(){
+    CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
     char productNames[100][100];
     int productOrders[100];
@@ -1260,8 +1336,12 @@ void productSort(){
         printf("\nNo items seems to be that liked\n");
     }
     printf("\n---Done--\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 void employeeSortingMenu(){
+    CLEAR;
     while(1){
         printf("\n---Welcome to additional Employee Infomation Menu Option---\n");
         int sortingEmpOption;
@@ -1275,12 +1355,14 @@ void employeeSortingMenu(){
         else if(sortingEmpOption==3) sortPerformanceRate();
         else if(sortingEmpOption==4) {
             printf("\n---Quiting Additional Employee Information Menu---\n");
+            CLEAR;
             break;
         }
         else printf("\nEnter valid number\n");
     }
 }
 void sortSalary(int order){
+    CLEAR;
     FILE *fp;
     struct EMPLOYEE emp[MAX_ARRAY_SIZE];
     struct TEMP2 tmp;
@@ -1362,9 +1444,13 @@ void sortSalary(int order){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
     printf("\n---Done---\n");
+    printf("\n---Click any button to continue---\n");
+    getch();
+    CLEAR;
 }
 void sortPerformanceRate(){
     FILE *fp;
+    CLEAR;
     struct EMPLOYEE emp[MAX_ARRAY_SIZE];
     struct TEMP2 tmp;
     int i=0,j,k;
@@ -1409,14 +1495,19 @@ void sortPerformanceRate(){
                     emp[k+1].empPerformanceRate=tmp.empPerformanceRate;
                 }
             }
-        }        
+        }     
+    printf("\n---Performance Rate sort---\n");   
     printf("\n--Results--\n");
     for(j=0;j<i;j++){
         printf("Employee-Id:%lld\nEmployee-Name:%s\nEmployee-Phone-Number:%s\nEmployee-Age:%d\nEmployee-Position:%s\nEmployee-Salary:%lld\nEmployee-Performance-Rate:%lf\n------\n",emp[j].empId,emp[j].empName,emp[j].empPhoneNumber,emp[j].empAge,emp[j].empPos,emp[j].empSalary,emp[j].empPerformanceRate);
     }
     printf("\n---Done---\n");
+    printf("\n---Click any button to return to menu---\n");
+    getch();
+    CLEAR;
 }
 int changePassword(){
+    CLEAR;
     printf("\n---Change Password---\n");
     int i=0;
     char oldPass[100],str[100],ch;
@@ -1453,7 +1544,10 @@ int changePassword(){
        }
        newPass[j]='\0';
        if(strcmp(oldPass,newPass)==0){
-        printf("\n---You can not enter old password");
+        printf("\n---You can not enter old password.Enter any button to continue---\n");
+        fgetc(stdin);
+        getch();
+        CLEAR;
        }else{
             if((fp=fopen("managerPasswordBin","wb"))==NULL){
             printf("Error:password bin change password");
@@ -1462,12 +1556,19 @@ int changePassword(){
             }
             fwrite(newPass,sizeof(newPass),1,fp);
             fclose(fp);
-            printf("\n---Password has been successfully changed---\n");
+            printf("\n---Password has been successfully changed.Enter any button to continue---\n");
+            fgetc(stdin);
+            getch();
+            CLEAR;
             return 1;
        }
     }else{
         printf("\n---Password do not match---\n");
         printf("\n---Failed in changing password---\n");
+        printf("\n---Enter any button to continue--\n");
+        fgetc(stdin);
+        getch();
+        CLEAR;
         return 0;
     }
 }

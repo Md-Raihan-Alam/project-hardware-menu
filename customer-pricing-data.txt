@@ -1,14 +1,14 @@
 Product-Id:1245
-Customer-Name:Md. Tawheedul Amin Siam
-Customer-Phone-Number:01252524652
+Customer-Name:Md Tawheedul Amin Siam
+Customer-Phone-Number:1252524652
 Item-Name:AMD X570 ATX
 Item-Brand-Name:Asus
 Price:1000
 Date:1/6/2022
 ------
 Product-Id:2356
-Customer-Name:Md. Raihan Alam
-Customer-Phone-Number:0132589854755
+Customer-Name:Md Raihan Alam
+Customer-Phone-Number:13258985475
 Item-Name:BarraCuda
 Item-Brand-Name:Seagate
 Price:9000
@@ -16,15 +16,15 @@ Date:2/6/2022
 ------
 Product-Id:1256
 Customer-Name:Md Ahnab Ayub Efty
-Customer-Phone-Number:0123654789
+Customer-Phone-Number:123654789
 Item-Name:970 EVO Plus
 Item-Brand-Name:Samsung
 Price:15000
 Date:2/6/2022
 ------
 Product-Id:4589
-Customer-Name:Md. Anas Chowdhury
-Customer-Phone-Number:01212121252
+Customer-Name:Md Anas Chowdhury
+Customer-Phone-Number:1212121252
 Item-Name:XONAR SE 5.1 Channel
 Item-Brand-Name:Asus
 Price:20000
@@ -32,23 +32,23 @@ Date:2/6/2022
 ------
 Product-Id:2354
 Customer-Name:Md Nazum Shakib Rafi
-Customer-Phone-Number:01212415142
+Customer-Phone-Number:1212415142
 Item-Name:Ethernet,PCI IEEE 802
 Item-Brand-Name:X-MEDIA Ethernet Card
 Price:3000
 Date:3/6/2022
 ------
 Product-Id:8745
-Customer-Name:Md. Raihan Kamal Avi
-Customer-Phone-Number:025887412589
+Customer-Name:Md Raihan Kamal Avi
+Customer-Phone-Number:25887412589
 Item-Name:DDR3 RAM
 Item-Brand-Name:kingston HyperX
 Price:50560
 Date:4/6/2022
 ------
 Product-Id:1596
-Customer-Name:Md. Raihan Chowdhury
-Customer-Phone-Number:02323231252
+Customer-Name:Md Raihan Chowdhury
+Customer-Phone-Number:2323231252
 Item-Name:N930AF
 Item-Brand-Name:NexiGo
 Price:12589
@@ -56,7 +56,7 @@ Date:5/6/2022
 ------
 Product-Id:3256
 Customer-Name:Md Kamal Khan
-Customer-Phone-Number:1212122323
+Customer-Phone-Number:1212122322
 Item-Name:BDR-XU03
 Item-Brand-Name:Pioneer
 Price:65238
@@ -64,7 +64,7 @@ Date:5/6/2022
 ------
 Product-Id:5896
 Customer-Name:Asis Chokro Chowdhury
-Customer-Phone-Number:121212326589
+Customer-Phone-Number:12121232658
 Item-Name:USB CP-AB150 1.5m Charging and Transfer Cable CP-AB150
 Item-Brand-Name:Sony
 Price:14523
@@ -72,9 +72,41 @@ Date:7/6/2022
 ------
 Product-Id:2563
 Customer-Name:Ram Charan
-Customer-Phone-Number:0114237236232
+Customer-Phone-Number:11423723623
 Item-Name:MUF-128AB
 Item-Brand-Name:Samsung
 Price:12578
 Date:7/6/2022
+------
+Product-Id:3214
+Customer-Name:Rocky Mia
+Customer-Phone-Number:12121525252
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:65238
+Date:7/6/2022
+------
+Product-Id:5698
+Customer-Name:Sharuk Khan
+Customer-Phone-Number:78545121365
+Item-Name:AMD X570 ATX
+Item-Brand-Name:Asus
+Price:23568
+Date:7/6/2022
+------
+Product-Id:7854
+Customer-Name:Salman Kham
+Customer-Phone-Number:74741414252
+Item-Name:DDR3 RAM
+Item-Brand-Name:Kingston HyperX
+Price:16854
+Date:8/6/2022
+------
+Product-Id:4125
+Customer-Name:Amir Khan
+Customer-Phone-Number:45125263698
+Item-Name:XONAR SE 5.1 Channel
+Item-Brand-Name:Asus
+Price:10230
+Date:8/6/2022
 ------

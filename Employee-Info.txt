@@ -6,14 +6,6 @@ Employee-Position:Assistant Manager
 Employee-Salary:12000
 Employee-Performance-Rate:78.650000
 ------
-Employee-Id:134679
-Employee-Name:Korim Mia
-Employee-Phone-Number:12125458754
-Employee-Age:30
-Employee-Position:Sales Man
-Employee-Salary:11000
-Employee-Performance-Rate:87.900000
-------
 Employee-Id:986532
 Employee-Name:Mahabub Alam
 Employee-Phone-Number:32541654817
@@ -60,5 +52,13 @@ Employee-Phone-Number:78784665821
 Employee-Age:25
 Employee-Position:Service Man
 Employee-Salary:8000
-Employee-Performance-Rate:85.780000
+Employee-Performance-Rate:72.320000
+------
+Employee-Id:134679
+Employee-Name:Korim Mia
+Employee-Phone-Number:12125458754
+Employee-Age:30
+Employee-Position:Sales Man
+Employee-Salary:12000
+Employee-Performance-Rate:87.900000
 ------
