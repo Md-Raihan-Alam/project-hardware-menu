@@ -1,10 +1,13 @@
+//header files
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<ctype.h>
 #include<conio.h>
+//macros
 #define MAX_ARRAY_SIZE 1000
 #define CLEAR system("cls");
+//structure
 struct EMPLOYEE{
     long long int empId;
     char empName[100];
@@ -41,6 +44,7 @@ struct TEMP2{
     int empAge;
     double empPerformanceRate;
 };
+//functions
 int employeeMenu();
 void customerData();
 void customerInfo();
@@ -72,6 +76,7 @@ void productSort();
 void employeeSortingMenu();
 void sortSalary(int order);
 void sortPerformanceRate();
+//main int
 int main(void)
 {
     int choices;
@@ -91,6 +96,7 @@ int main(void)
     }
     getch();
 }
+//employee menu function
 int employeeMenu(){
     int optionNo;
     printf("\n---Welcome to hardware management menu as employee---\n");
@@ -103,6 +109,7 @@ int employeeMenu(){
     scanf("%d",&optionNo);
     return optionNo;
 }
+//customer data visual
 void customerData(){
     FILE *fp;
     struct CUSTOMER cus;
@@ -127,6 +134,7 @@ void customerData(){
     getch();
     CLEAR;
 }
+//enter customer menu
 void customerInfo(){
     CLEAR;
     while(1)
@@ -177,6 +185,7 @@ void customerInfo(){
         printf("\n");
     }
 }
+//search customer info options
 void customersInformationSearch(){
     CLEAR;
     while(1){
@@ -203,6 +212,7 @@ void customersInformationSearch(){
     else printf("\nEnter proper number next time\n");
     }
 }
+//manager login
 void managerLogin(){
     printf("\n---Manager Login---\n");
     int i=0;
@@ -258,6 +268,7 @@ void managerLogin(){
         printf("\nWrong Password\n");
     }
 }
+//manager menu
 int managerMenu(){
     printf("\n---Welcome to hardware management menu as manager---\n");
     printf("1.Employee Info\n");
@@ -276,6 +287,7 @@ int managerMenu(){
     scanf("%d",&manager_choices);
     return manager_choices;
 }
+//employ data visual
 void employeeData(){
     CLEAR;
     FILE *fp;
@@ -304,6 +316,7 @@ void employeeData(){
     getch();
     CLEAR;
 }
+//enter new employee data
 void hireEmployee(){
     while(1){
         CLEAR;
@@ -347,6 +360,7 @@ void hireEmployee(){
     getch();
     CLEAR;
 }
+//update or firs employee
 void fireUpdateEmployee(int order){
     CLEAR;
     FILE *fp1,*fp2;
@@ -465,6 +479,7 @@ void fireUpdateEmployee(int order){
     getch();
     CLEAR;
 }
+//search customer info by id
 void searchItemId(){
     long long int searchProductId;
     int found=0;
@@ -497,6 +512,7 @@ void searchItemId(){
     CLEAR;
     fclose(fp);
 }
+//search customer info by customer name
 void searchCustomerName(){
     int found=0;
     char searchCusName[100];
@@ -533,6 +549,7 @@ void searchCustomerName(){
     CLEAR;
     fclose(fp);
 }
+//search customer info by phone number
 void searchPhoneNumber(){
     int found=0;
     char searchPhoNum[100];
@@ -567,6 +584,7 @@ void searchPhoneNumber(){
     CLEAR;
     fclose(fp);
 }
+//search customer info by item name
 void searchItemName(){
     int found=0;
     char searchItName[100];
@@ -602,6 +620,7 @@ void searchItemName(){
     CLEAR;
     fclose(fp);
 }
+//search customer info by item brand name
 void searchBrandName(){
     int found=0;
     char searchBrand[100];
@@ -636,6 +655,7 @@ void searchBrandName(){
     CLEAR;
     fclose(fp);
 }
+//search customer info by prices with range or specific
 void searchPrices(){
     char ch;
     CLEAR;
@@ -706,6 +726,7 @@ void searchPrices(){
         fclose(fp);
     }
 }
+//search employee info by menu
 void empInformationSearch(){
     CLEAR;
    while(1){
@@ -732,6 +753,7 @@ void empInformationSearch(){
    else printf("Please enter valid number\n");
    }
 }
+//search employee by id
 void searchEmpId(){
     CLEAR;
     FILE *fp;
@@ -763,6 +785,7 @@ void searchEmpId(){
     getch();
     CLEAR;
 }
+//search employee by name
 void searchEmpName(){
     int found=0;
     char searchEmpNam[100];
@@ -797,6 +820,7 @@ void searchEmpName(){
     getch();
     CLEAR;
 }
+//search employee by position
 void searchEmpPos(){
     int found=0;
     char searchEmpPos[100];
@@ -831,6 +855,7 @@ void searchEmpPos(){
     getch();
     CLEAR;
 }
+//search employee by performance rate
 void searchEmpPerRate(){
     FILE *fp;
     double searchEmpPerformanceR;
@@ -885,6 +910,7 @@ void searchEmpPerRate(){
     getch();
     CLEAR;
 }
+//search employee by salary with range or specific
 void searchEmpSalary(){
     char ch;
     CLEAR;
@@ -952,6 +978,7 @@ void searchEmpSalary(){
     getch();
     CLEAR;
 }
+//search employee by phone number
 void searchEmpPhone(){
     int found=0;
     CLEAR;
@@ -986,6 +1013,7 @@ void searchEmpPhone(){
     getch();
     CLEAR;
 }
+//sort customer menu 
 void sortingCustomerMenu(){
     int sortingOption;
     CLEAR;
@@ -1010,6 +1038,7 @@ void sortingCustomerMenu(){
         else printf("\nEnter a valid option number\n");
     }
 }
+//sort by customer prices
 void pricesSort(int order){
     CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1098,6 +1127,7 @@ void pricesSort(int order){
     getch();
     CLEAR;
 }
+//sort by customer visit times
 void customerSort(){
     CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1164,11 +1194,11 @@ void customerSort(){
             if(customerVisits[j]>=maximumVisits)
                 printf("%s visits %d times\n",names[j],customerVisits[j]);
         }
-        printf("------\nThey seems to be irregular\n");
-        for(j=0;j<arrayLength;j++){
-            if(customerVisits[j]<maximumVisits)
-                printf("%s visits %d times\n",names[j],customerVisits[j]);
-        }
+        // printf("------\nThey seems to be irregular\n");
+        // for(j=0;j<arrayLength;j++){
+        //     if(customerVisits[j]<maximumVisits)
+        //         printf("%s visits %d times\n",names[j],customerVisits[j]);
+        // }
     }else{
         printf("\nNo one seems to be deserve special offer\b");
     }
@@ -1177,6 +1207,7 @@ void customerSort(){
     getch();
     CLEAR;
 }
+//sort by customer brand broughts
 void brandSort(){
     CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1245,9 +1276,20 @@ void brandSort(){
     printf("\nYou should consider ordering more as these brands seem to be liked by client:\n");
     if(maximumOrders>1){
         for(j=0;j<arrayLength;j++){
-            if(brandOrders[j]>=maximumOrders){
-                printf("\n%s was brought %d times\n",brandNames[j],brandOrders[j]);
-            }    
+                        // printf("\nMaximum Orders %d\n",maximumOrders);
+            if(maximumOrders>=10){
+                if(brandOrders[j]>=(maximumOrders-5)){
+                printf("\n%s",brandNames[j]);
+                }
+            }else if(maximumOrders>=4){
+                if(brandOrders[j]>=(maximumOrders-2)){
+                printf("\n%s",brandNames[j]);
+                }
+            }else{
+                if(brandOrders[j]>=maximumOrders){
+                printf("\n%s",brandNames[j]);
+                }
+            }
         }
     }else{
         printf("\nNo Item brands seems to be that demand yet!\n");
@@ -1257,6 +1299,7 @@ void brandSort(){
     getch();
     CLEAR;
 }
+//sort by customer product broughts
 void productSort(){
     CLEAR;
     struct CUSTOMER cus[MAX_ARRAY_SIZE];
@@ -1328,8 +1371,19 @@ void productSort(){
     if(maximumOrders>1){
         printf("\nYou should consider ordering more as these items seem to be liked by client:\n");
         for(j=0;j<arrayLength;j++){
-            if(productOrders[j]>=maximumOrders){
+            // printf("\nMaximum Orders %d\n",maximumOrders);
+            if(maximumOrders>=10){
+                if(productOrders[j]>=(maximumOrders-5)){
                 printf("%s\n",productNames[j]);
+                }
+            }else if(maximumOrders>=4){
+                if(productOrders[j]>=(maximumOrders-2)){
+                printf("%s\n",productNames[j]);
+                }
+            }else{
+                if(productOrders[j]>=maximumOrders){
+                printf("%s\n",productNames[j]);
+                }
             }
         }
     }else{
@@ -1340,6 +1394,7 @@ void productSort(){
     getch();
     CLEAR;
 }
+//employee sorting menu 
 void employeeSortingMenu(){
     CLEAR;
     while(1){
@@ -1361,6 +1416,7 @@ void employeeSortingMenu(){
         else printf("\nEnter valid number\n");
     }
 }
+//sort employee by salary
 void sortSalary(int order){
     CLEAR;
     FILE *fp;
@@ -1448,6 +1504,7 @@ void sortSalary(int order){
     getch();
     CLEAR;
 }
+//sort employee by performance rate
 void sortPerformanceRate(){
     FILE *fp;
     CLEAR;
@@ -1506,6 +1563,7 @@ void sortPerformanceRate(){
     getch();
     CLEAR;
 }
+//change password
 int changePassword(){
     CLEAR;
     printf("\n---Change Password---\n");

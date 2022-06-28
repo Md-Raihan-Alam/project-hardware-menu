@@ -278,3 +278,275 @@ Item-Brand-Name:Seagate
 Price:9632
 Date:18/6/2022
 ------
+Product-Id:7568
+Customer-Name:Sojib Hassan
+Customer-Phone-Number:45126254241
+Item-Name:DDR3 RAM
+Item-Brand-Name:Kingston HyperX
+Price:9800
+Date:18/6/2022
+------
+Product-Id:9585
+Customer-Name:Najmul Hasan
+Customer-Phone-Number:45215636325
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:96520
+Date:19/6/2022
+------
+Product-Id:3698
+Customer-Name:Najmul Hasan Sojib
+Customer-Phone-Number:85412665345
+Item-Name:USB CP-AB150 1.5m Charging and Transfer Cable CP-AB150
+Item-Brand-Name:Sony
+Price:13468
+Date:19/6/2022
+------
+Product-Id:7412
+Customer-Name:Sulaman Sorker
+Customer-Phone-Number:85213669820
+Item-Name:XONAR SE 5.1 Channel
+Item-Brand-Name:Asus
+Price:125698
+Date:20/6/2022
+------
+Product-Id:3589
+Customer-Name:Abub Bokkor
+Customer-Phone-Number:41253685474
+Item-Name:Ethernet, PCI IEEE 802
+Item-Brand-Name:X-MEDIA Ethernet Card
+Price:82536
+Date:20/6/2022
+------
+Product-Id:1452
+Customer-Name:Akram Ullah Rifat
+Customer-Phone-Number:45452525858
+Item-Name:AMD X570 ATX
+Item-Brand-Name:Asus
+Price:985632
+Date:20/6/2022
+------
+Product-Id:2547
+Customer-Name:Rocky Mia
+Customer-Phone-Number:12121525252
+Item-Name:U2723QE
+Item-Brand-Name:Dell
+Price:75684
+Date:21/6/2022
+------
+Product-Id:5674
+Customer-Name:Sharuk Khan
+Customer-Phone-Number:78545121365
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:794613
+Date:21/6/2022
+------
+Product-Id:1469
+Customer-Name:Salman Kham
+Customer-Phone-Number:74741414252
+Item-Name:DDR3 RAM
+Item-Brand-Name:Kingston HyperX
+Price:968574
+Date:21/6/2022
+------
+Product-Id:8532
+Customer-Name:Alom Mia
+Customer-Phone-Number:9658741258
+Item-Name:Artist12
+Item-Brand-Name:XP-PEN
+Price:4568
+Date:22/6/2022
+------
+Product-Id:1563
+Customer-Name:Shak Noman
+Customer-Phone-Number:74568951265
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:9990
+Date:22/6/2022
+------
+Product-Id:2698
+Customer-Name:Shariar Tultul
+Customer-Phone-Number:42136454878
+Item-Name:USB CP-AB150 1.5m Charging and Transfer Cable CP-AB150
+Item-Brand-Name:Sony
+Price:96354
+Date:22/6/2022
+------
+Product-Id:7946
+Customer-Name:Md Tawheedul Amin Siam
+Customer-Phone-Number:1252524652
+Item-Name:BDR-XU03
+Item-Brand-Name:Pioneer
+Price:65891
+Date:23/6/2022
+------
+Product-Id:1358
+Customer-Name:Md Raihan Alam
+Customer-Phone-Number:13258985475
+Item-Name:AMD X570 ATX
+Item-Brand-Name:Asus
+Price:80065
+Date:23/6/2022
+------
+Product-Id:4391
+Customer-Name:Md Ahnab Ayub Epty
+Customer-Phone-Number:123654789
+Item-Name:MX Master 3
+Item-Brand-Name:Logitech
+Price:5000
+Date:24/6/2022
+------
+Product-Id:2862
+Customer-Name:Asis Chokro Bortii
+Customer-Phone-Number:12121232658
+Item-Name:Ethernet, PCI IEEE 802
+Item-Brand-Name:X-MEDIA Ethernet Card
+Price:658932
+Date:25/6/2022
+------
+Product-Id:1578
+Customer-Name:Ram Charan
+Customer-Phone-Number:11423723623
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:984153
+Date:25/6/2022
+------
+Product-Id:6255
+Customer-Name:Rimon Noman
+Customer-Phone-Number:48542123654
+Item-Name:MX Master 3
+Item-Brand-Name:Logitech
+Price:1150
+Date:25/6/2022
+------
+Product-Id:8090
+Customer-Name:Rimon Noman
+Customer-Phone-Number:11423723623
+Item-Name:K-920
+Item-Brand-Name:Mechanical Gaming
+Price:6080
+Date:26/6/2022
+------
+Product-Id:9870
+Customer-Name:Nurul Amin
+Customer-Phone-Number:45253625968
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:65655
+Date:26/6/2022
+------
+Product-Id:8547
+Customer-Name:Aziz Shahab
+Customer-Phone-Number:74748525412
+Item-Name:BarraCuda
+Item-Brand-Name:Seagate
+Price:65897
+Date:27/6/2022
+------
+Product-Id:7056
+Customer-Name:Liton Das
+Customer-Phone-Number:96596596596
+Item-Name:XONAR SE 5.1 Channel
+Item-Brand-Name:Asus
+Price:91628
+Date:27/6/2022
+------
+Product-Id:8210
+Customer-Name:Chitto Ram
+Customer-Phone-Number:75421659527
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:562389
+Date:27/6/2022
+------
+Product-Id:8790
+Customer-Name:Yesh
+Customer-Phone-Number:45254163666
+Item-Name:USB CP-AB150 1.5m Charging and Transfer Cable CP-AB150
+Item-Brand-Name:Sony
+Price:1236
+Date:28/6/2022
+------
+Product-Id:7060
+Customer-Name:Dav
+Customer-Phone-Number:74741112366
+Item-Name:DDR3 RAM
+Item-Brand-Name:Kingston HyperX
+Price:145263
+Date:28/6/2022
+------
+Product-Id:5040
+Customer-Name:Jishu Mondool
+Customer-Phone-Number:74141474114
+Item-Name:BDR-XU03
+Item-Brand-Name:Pioneer
+Price:909090
+Date:28/6/2022
+------
+Product-Id:7089
+Customer-Name:Jackson
+Customer-Phone-Number:JACKSON
+Item-Name:AMD X560 ATX
+Item-Brand-Name:Asus
+Price:6352
+Date:29/6/2022
+------
+Product-Id:8056
+Customer-Name:Hallod
+Customer-Phone-Number:57845785214
+Item-Name:MX Master 3
+Item-Brand-Name:Logitech
+Price:12547
+Date:29/6/2022
+------
+Product-Id:6052
+Customer-Name:Sri Sri Charan
+Customer-Phone-Number:41212523652
+Item-Name:Ethernet, PCI IEEE 802
+Item-Brand-Name:X-MEDIA Ethernet Card
+Price:15632
+Date:30/6/2022
+------
+Product-Id:9083
+Customer-Name:Md Kamal Sorkar
+Customer-Phone-Number:22222222222
+Item-Name:BDR-XU03
+Item-Brand-Name:Pioneer
+Price:562378
+Date:30/6/2022
+------
+Product-Id:3059
+Customer-Name:Md Kamal Khan
+Customer-Phone-Number:1212122322
+Item-Name:970 EVO Plus
+Item-Brand-Name:Samsung
+Price:85964
+Date:30/6/2022
+------
+Product-Id:4050
+Customer-Name:Md Shak Samsul
+Customer-Phone-Number:74444144444
+Item-Name:BarraCuda
+Item-Brand-Name:Seagate
+Price:13654
+Date:30/6/2022
+------
+Product-Id:4058
+Customer-Name:Jamil Asad
+Customer-Phone-Number:45858582587
+Item-Name:USB CP-AB150 1.5m Charging and Transfer Cable CP-AB150
+Item-Brand-Name:Sony
+Price:50000
+Date:30/6/2022
+------
+Product-Id:2020
+Customer-Name:Rashid Khan
+Customer-Phone-Number:41235421352
+Item-Name:AMD X570 ATX
+Item-Brand-Name:Asus
+Price:60000
+Date:30/6/2022
+------
