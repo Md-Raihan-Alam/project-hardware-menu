@@ -103,8 +103,8 @@ int employeeMenu(){
     printf("1.Enter selling product and customer data.\n");
     printf("2.Customer Informations\n");
     printf("3.Manager Menu\n");
-    printf("4.Search Customers Information\n");
-    printf("5.Sorting information from customer data\n");
+    printf("4.Search Customers Information(Searching)\n");
+    printf("5.Additional Information About Customer(Sorting)\n");
     printf("6.Quit Menu\n:");
     scanf("%d",&optionNo);
     return optionNo;
